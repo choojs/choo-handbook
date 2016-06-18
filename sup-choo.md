@@ -1,21 +1,19 @@
 # sup choo
 Hey there stranger, welcome to this workshop. My name is
 [yosh](https://twitter.com/yoshuawuyts), and I'll be your host for today. I'm
-super stoked for you to have landed on these docs. I'm assuming `choo` (choo
-choo!) has piqued your interest, and you'd like to get started with it. So
-that's exactly what we'll do!
+super stoked for you to be here. I'm goinging ahead and assume `choo` (choo
+choo!) has piqued your interest, and you want to get started. Let's do it!
 
 `choo` is a tiny little framework that tries to bridge the gap from prototyping
-to production code. How does that work? Easy - you'll have done that in the
-next few minutes. We'll be building a pocket-sized app, starting off with HTML
-and then gently bolting on logic where needed. Here goes!
+to production code. How does that work? Easy - you'll have seen it in action in
+the next few minutes. We'll be building a pocket-sized app, starting off with
+HTML and then gently bolting on logic where needed. Here goes!
 
 ## Task
 Create a `choo` app that displays `"hello pink world!"` inside of a `<div>` in
 the browser.
 
 ## Guide
-### Sup choo
 To get things started we must import `choo` and create a new instance called
 `app`. `app` will be the little container that holds our app. Create a new file
 called `client.js` and initialize `choo`:
@@ -67,5 +65,5 @@ $ budo client.js
 [0001] 453ms      21KB (browserify)
 ```
 
-Annnnd that's it! Now you can navigate to your browser on `localhost:9966` and
-your app should be alive!
+Annnnd that's it! Congratulations, you now you can navigate to your browser on
+`localhost:9966` and your app should be alive!
