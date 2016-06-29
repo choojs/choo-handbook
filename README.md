@@ -2,7 +2,7 @@
 Learn `choo` through a set of exercises:
 
 ## Contents
-- [sup-choo]()
+- [sup-choo](sup-choo.md)
 - [concepts]()
 - [views]()
 
