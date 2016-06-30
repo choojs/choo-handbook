@@ -25,8 +25,7 @@ const app = choo()
 Next up let's create a `view`. Views are functions that return HTML.  So let's
 go on and import `html` from choo and create our `<div>` tag:
 ```js
-const html = require('choo/html')
-const myCoolView = () => html`
+const myCoolView = () => choo.view`
   <div>hello pink world!</div>
 `
 ```
