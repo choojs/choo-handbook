@@ -1,5 +1,5 @@
 # workshop-choo
-Learn `choo` through a set of exercises:
+Learn [`choo`][choo] through a set of exercises:
 
 ## Contents
 - [sup-choo](sup-choo.md)
@@ -8,3 +8,5 @@ Learn `choo` through a set of exercises:
 
 ## License
 [MIT](https://tldrlegal.com/license/mit-license)
+
+[choo]: https://github.com/yoshuawuyts/choo
