@@ -1,0 +1,23 @@
+{
+  "name": "workshop-choo",
+  "version": "1.0.0",
+  "description": "Learn choo through a set of exercises",
+  "main": "index.js",
+  "scripts": {
+    "build": "minidocs . -c index.json -o dist",
+    "start": "budo --dir dist -P -l"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/yoshuawuyts/workshop-choo.git"
+  },
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/yoshuawuyts/workshop-choo/issues"
+  },
+  "homepage": "https://github.com/yoshuawuyts/workshop-choo#readme",
+  "devDependencies": {
+    "budo": "^8.3.0",
+    "minidocs": "github:freeman-lab/minidocs#14d93cb"
+  }
+}
