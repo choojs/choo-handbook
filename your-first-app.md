@@ -86,8 +86,9 @@ to the `todos` array, we dispatch an *action* using
 model called `addTodo` and passes it `{ title: 'Buy milk' }`. The reducer should 
 return a new version of the state which choo will use to _replace_ the state under
 the hood (rather than alter/mutate it). (TODO: Add "benefit" of immutability)
-Below, we add an `addTodo` reducer that uses the [ES6 spread operator]() to create
-a copy of `state.todos` and add `action` (the new todo item) to it.
+Below, we add an `addTodo` reducer that uses the
+[ES6 spread operator](http://es6-features.org/#SpreadOperator) to create a copy
+of `state.todos` and add `action` (the new todo item) to it.
 
 ```javascript
 app.model({
@@ -154,7 +155,7 @@ const view = (params, state, send) => {
 }
 ```
 
-Yikes, that's starting to get a little ugly. We can go a step further and put the
+Yikes, that's starting to get hard to read. We can go a step further and put the
 `onsubmit` code into its own function.
 
 ```javascript
@@ -180,3 +181,124 @@ const view = (params, state, send) => {
 
 Ah, much cleaner. At this point, you should be able to add your own todo items and
 the `<input>` should reset each time. But how do we mark the items as complete?
+
+## Completion status
+
+We'll assume that every new item should be _not_ complete when it's created. Let's
+revisit our `addTodo` reducer and have it add that default property.
+
+```javascript
+app.model({
+  state: {
+    todos: []
+  },
+  reducers: {
+    addTodo: (action, state) => {
+      action.completed = false
+      const newTodos = [...state.todos, action]
+      return { todos: newTodos }
+    }
+  }
+})
+```
+
+Now, every time we add a todo item, it will be stored as
+`{ title: 'Our title', complete: false }`. Let's update the view to show that status.
+
+```javascript
+const view = (params, state, send) => {
+  return html`
+    <div>
+      <form onsubmit=${onSubmit}>
+        <input type="text" placeholder="New item" id="title">
+      </form>
+      <ul>
+        ${state.todos.map((todo) => html`
+          <li>
+            <input type="checkbox" ${todo.completed ? 'checked' : ''} />
+            ${todo.title}
+          </li>`)}
+      </ul>
+    </div>`
+
+  function onSubmit (e) {
+    . . .
+}
+```
+
+Now every time you add an item, it should have an unchecked checkbox next to it.
+If you like, you can change the reducer to set `completed` to `true` by default,
+which will make the checkboxes show up as checked. But then change it back,
+because that isn't how our app should work.
+
+You'll notice, though, that if you add a new item, it resets all the "checked"
+statuses to the default. That's because nothing's actually happening when you
+click the checkbox other than the default browser functionality provided by
+`<input type="checkbox">`. Let's create a handler for when the checkbox changes
+that fires an action to update its `completed` property in the state.
+
+To update the state's array of todo items, we need to tell the reducer which item
+in the array to update. So we'll take advantage of `.map()`'s second argument,
+the index of the array it's iterating.
+
+```javascript
+const view = (params, state, send) => {
+  return html`
+    <div>
+      <form onsubmit=${onSubmit}>
+        <input type="text" placeholder="New item" id="title">
+      </form>
+      <ul>
+        ${state.todos.map((todo, index) => html`
+          <li>
+            <input type="checkbox" ${todo.completed ? 'checked' : ''} onchange=${(e) => {
+              send('setCompleted', { index, completed: e.target.checked })
+            }} />
+            ${todo.title}
+          </li>`)}
+      </ul>
+    </div>`
+
+  function onSubmit (e) {
+    . . .
+}
+```
+
+First of all, you'll notice our `<input>` has grown to two lines. That's valid
+markup but not very readable, so feel free to move it to its own function like
+we did for `onSubmit`. Second, you'll notice we're passing `index` using the
+[ES6 property shorthand](http://es6-features.org/#PropertyShorthand) and the
+value of the checkbox's `checked` property.
+
+Now we have to create a reducer called `setCompleted` to update the state when
+this action is fired.
+
+```javascript
+app.model({
+  state: {
+    todos: []
+  },
+  reducers: {
+    addTodo: (action, state) => {
+      . . .
+    },
+    setCompleted: (action, state) => {
+      const newTodos = [...state.todos]
+      newTodos[action.index].completed = action.completed
+    }
+  }
+})
+```
+
+In this reducer, we create a copy of `state.todos` so as not to mutate the state,
+then we alter the specific item in the new array, changing its `completed`
+property to whatever's been passed. Now your app will maintain the `completed`
+state when you add new items, as your state is being updated.
+
+So far our app works great unless you refresh! Doing so clears your state, and
+you lose all your items. In a real-world app, you may want to persist your items
+to a server's database. For this example, we'll use `localStorage`, an in-browser
+database that lets you persist data between refreshes. We accomplish similar to
+how we'd accomplish communicating with a server: we use an *effect*.
+
+## Effects
