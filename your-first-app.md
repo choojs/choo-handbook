@@ -5,11 +5,13 @@ familiar with a few things:
 
 * The concept of **models** and **views** (as in MVC)
 * The concept of **state** (the data your application is currently using)
-* A few JavaScript features from ES6 (aka ES2015) like `const`, the [spread
-operator](), [object destructuring](), [tagged template literals](), and
-[property shorthand]() (But don't worry: they're optional, they don't make
-it much harder to understand what's going on, and
-[choo works in older browsers]())
+* A few JavaScript features from ES6 (aka ES2015) like `const`, the
+[spread operator](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Operators/Spread_operator),
+[destructuring assignment](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Operators/Destructuring_assignment),
+[tagged template strings](https://github.com/lukehoban/es6features#template-strings), and
+[property shorthand](https://github.com/lukehoban/es6features#enhanced-object-literals)
+(But don't worry: they're optional, they don't make it much harder to understand
+what's going on, and [choo supports older browsers](https://github.com/yoshuawuyts/choo/#choo--internet-explorer--safari))
 * Importing JavaScript modules using `require(...)`
 
 ## Rendering data
@@ -76,11 +78,14 @@ document.body.appendChild(tree)
 ```
 
 Now we can run our application to see it in action! Normally, we'd need to bundle
-the code using [browserify]() (because we use `require()`) and create an
-`index.html` file that pulls in the bundle with a `<script>` tag. To save time,
-we'll use [budo](), which bundles the code and runs a development server.
+the code using [browserify](http://browserify.org/) (because we use `require()`)
+and create an `index.html` file that pulls in the bundle with a `<script>` tag.
+To save time, we'll use [budo](https://github.com/mattdesl/budo), which bundles
+the code and runs a development server. In your terminal, run:
 
 ```bash
+npm install --global budo
+
 budo index.js --live --open
 ```
 
@@ -106,7 +111,7 @@ to the `todos` array, we dispatch an **action** using
 `send('addTodo', { title: 'Buy milk' })`. choo then looks for a **reducer** on the
 model called `addTodo` and passes it `{ title: 'Buy milk' }`. The reducer should 
 return a new version of the state which choo will use to _replace_ the state under
-the hood (rather than alter/mutate it). (TODO: Add "benefit" of immutability)
+the hood (rather than alter/mutate it).
 
 Below, we add an `addTodo` reducer that uses the
 [ES6 spread operator](http://es6-features.org/#SpreadOperator) to create a copy
@@ -155,9 +160,10 @@ because `send()` calls the **reducer** on your **model**, which updates the
 it re-renders, `state.todos` contains the new item you added.
 
 You'll notice that this "re-render" doesn't reset the text in your `<input>`.
-That's because choo uses [morphdom](), which only patches the pieces of the DOM
-that have changed. That's cool, but we probably want the `<input>` to be reset in
-this case. So let's touch up our `onsubmit` code a little.
+That's because choo uses [morphdom](https://github.com/patrick-steele-idem/morphdom),
+which only patches the pieces of the DOM that have changed. That's cool, but we
+probably want the `<input>` to be reset in this case. So let's touch up our
+`onsubmit` code a little.
 
 ```javascript
 const view = (state, prev, send) => {
@@ -323,12 +329,12 @@ app.model({
 })
 ```
 
-In this reducer, we use [ES6 destructuring]() to create short-hand variables
-from the `data` object. We create a copy of the `state.todos` array, then we
-identify the item we're updating using the `index` that was passed. We then
-create a copy of that item and extend it with our `updates` using
-`Object.assign()`. Finally we replace the old item in the array with our new
-object.
+In this reducer, we use [ES6 destructuring](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Operators/Destructuring_assignment)
+to create short-hand variables from the `data` object. We create a copy of the
+`state.todos` array, then we identify the item we're updating using the `index`
+that was passed. We then create a copy of that item and extend it with our
+`updates` using `Object.assign()`. Finally we replace the old item in the array
+with our new object.
 
 This may seem like a lot of work relative to simply altering the state directly,
 but immutability lets us compare the state across time and helps avoid bugs down
