@@ -1,16 +1,16 @@
 We'll be using several features from ES6 here, but they're entirely optional.
 
-First, let's import the `choo` module and initialize the application. We'll
-create a short-hand variable for `choo.view` called `html`.
+First, let's import the `choo` module, the `html` builder, and initialize the
+application.
 
 ```javascript
 const choo = require('choo')
-const html = choo.view
+const html = require('choo/html')
 const app = choo()
 ```
 
-We'll start building our application by creating a model. In choo, models
-are where *state* is contained and where the methods for updating the state
+We'll start building our application by creating a **model**. In choo, models
+are where **state** is contained and where the methods for updating the state
 are defined. For now, let's say that our state will contain an array of todo
 items. We'll add a couple example todos for demonstration purposes.
 
@@ -25,11 +25,16 @@ app.model({
 })
 ```
 
-Now let's create a view to render the todo items. Views are meant to be functions
-that are passed `(params, state, send)` and return a DOM tree of element(s).
+Now let's create a **view** to render the todo items. Views are just functions
+that return a DOM tree of elements. They are passed the current state, the
+previous state, and a callback function that can be used to change the state.
+
+The `html` builder uses ES6's [tagged template literals](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Template_literals)
+to construct a DOM tree. We'll use a `.map()` function to list out the todo
+items.
 
 ```javascript
-const view = (params, state, send) => {
+const view = (state, prev, send) => {
   return html`
     <div>
       <h1>Todos</h1>
@@ -56,11 +61,13 @@ const tree = app.start()
 document.body.appendChild(tree)
 ```
 
-Now we can run our application to see it in action! Switch over to your terminal
-and use [budo]() to run a development server with [browserify]().
+Now we can run our application to see it in action! Normally, we'd need to bundle
+the code using [browserify]() (because we use `require()`) and create an
+`index.html` file that pulls in the bundle with a `<script>` tag. To save time,
+we'll use [budo](), which bundles the code and runs a development server.
 
 ```bash
-budo index.js --live
+budo index.js --live --open
 ```
 
 You should see the **Todos** header and your list of two todo items. That's cool,
@@ -81,14 +88,15 @@ app.model({
 
 In choo, state is meant to be immutable, so we would never want to alter `todos`
 directly (like `state.todos.push(newTodo)`). Instead, when we want to add an item
-to the `todos` array, we dispatch an *action* using
-`send('addTodo', { title: 'Buy milk' })`. choo then looks for a *reducer* on the
+to the `todos` array, we dispatch an **action** using
+`send('addTodo', { title: 'Buy milk' })`. choo then looks for a **reducer** on the
 model called `addTodo` and passes it `{ title: 'Buy milk' }`. The reducer should 
 return a new version of the state which choo will use to _replace_ the state under
 the hood (rather than alter/mutate it). (TODO: Add "benefit" of immutability)
+
 Below, we add an `addTodo` reducer that uses the
 [ES6 spread operator](http://es6-features.org/#SpreadOperator) to create a copy
-of `state.todos` and add `action` (the new todo item) to it.
+of `state.todos` and add the new todo item to it.
 
 ```javascript
 app.model({
@@ -96,20 +104,21 @@ app.model({
     todos: []
   },
   reducers: {
-    addTodo: (action, state) => {
-      const newTodos = [...state.todos, action]
+    addTodo: (data, state) => {
+      const newTodos = [...state.todos, data]
       return { todos: newTodos }
     }
   }
 })
 ```
 
-Now let's add a `<form>` above our list of todos so users can add an item. We'll give
-it an `onsubmit` handler that will call our `addTodo` reducer with the `value` of its
-`<input>` child element using the `send` callback passed to the view by choo.
+Now let's add a `<form>` above our list of todos so users can add an item. We'll
+give it an `onsubmit` handler that will call our `addTodo` reducer with the `value`
+of its `<input>` child element using the `send` callback passed to the view by
+choo.
 
 ```javascript
-const view = (params, state, send) => {
+const view = (state, prev, send) => {
   return html`
     <div>
       <form onsubmit=${(e) => {
@@ -125,19 +134,19 @@ const view = (params, state, send) => {
 }
 ```
 
-Take a look at your app again and try typing in a new todo item and pressing `enter`.
-It should immediately show up at the bottom of your list! Woah! That's because `send()`
-calls the *reducer* on your *model*, which updates the *state*. Every time the state
-updates, the *view* re-renders itself. And when it re-renders, `state.todos` contains
-the new item you added.
+Take a look at your app again and try typing in a new todo item and pressing
+`enter`. It should immediately show up at the bottom of your list! Woah! That's
+because `send()` calls the **reducer** on your **model**, which updates the
+**state**. Every time the state updates, the **view** re-renders itself. And when
+it re-renders, `state.todos` contains the new item you added.
 
-You'll notice that this "re-render" doesn't even reset the text in your `<input>`.
-That's because it uses [morphdom](), which only patches the pieces of the DOM that
-have changed. That's cool, but we probably want the `<input>` to be reset in this
-case. So let's touch up our `onsubmit` code a little.
+You'll notice that this "re-render" doesn't reset the text in your `<input>`.
+That's because choo uses [morphdom](), which only patches the pieces of the DOM
+that have changed. That's cool, but we probably want the `<input>` to be reset in
+this case. So let's touch up our `onsubmit` code a little.
 
 ```javascript
-const view = (params, state, send) => {
+const view = (state, prev, send) => {
   return html`
     <div>
       <form onsubmit=${(e) => {
@@ -159,7 +168,7 @@ Yikes, that's starting to get hard to read. We can go a step further and put the
 `onsubmit` code into its own function.
 
 ```javascript
-const view = (params, state, send) => {
+const view = (state, prev, send) => {
   return html`
     <div>
       <form onsubmit=${onSubmit}>
@@ -185,7 +194,9 @@ the `<input>` should reset each time. But how do we mark the items as complete?
 ## Completion status
 
 We'll assume that every new item should be _not_ complete when it's created. Let's
-revisit our `addTodo` reducer and have it add that default property.
+revisit our `addTodo` reducer and have it add that default property. Like `state`,
+we don't want to mutate/alter `data` directly, so we'll use `Object.assign()` to
+clone/extend it.
 
 ```javascript
 app.model({
@@ -193,9 +204,11 @@ app.model({
     todos: []
   },
   reducers: {
-    addTodo: (action, state) => {
-      action.completed = false
-      const newTodos = [...state.todos, action]
+    addTodo: (data, state) => {
+      const todo = Object.assign({}, data, {
+        completed: false
+      })
+      const newTodos = [...state.todos, todo]
       return { todos: newTodos }
     }
   }
@@ -203,10 +216,11 @@ app.model({
 ```
 
 Now, every time we add a todo item, it will be stored as
-`{ title: 'Our title', complete: false }`. Let's update the view to show that status.
+`{ title: 'Our title', complete: false }`. Let's update the view to show that
+status.
 
 ```javascript
-const view = (params, state, send) => {
+const view = (state, prev, send) => {
   return html`
     <div>
       <form onsubmit=${onSubmit}>
@@ -234,15 +248,17 @@ because that isn't how our app should work.
 You'll notice, though, that if you add a new item, it resets all the "checked"
 statuses to the default. That's because nothing's actually happening when you
 click the checkbox other than the default browser functionality provided by
-`<input type="checkbox">`. Let's create a handler for when the checkbox changes
+`<input type="checkbox">`. Let's create a handler for checkbox clicks
 that fires an action to update its `completed` property in the state.
 
-To update the state's array of todo items, we need to tell the reducer which item
-in the array to update. So we'll take advantage of `.map()`'s second argument,
-the index of the array it's iterating.
+The state stores todos as an array. To update a specific todo, we'll need to know
+its index in that array. So we'll alter the `state.todos.map((todos) => ...)`
+signature to include the second argument that JavaScript's `.map` function
+provides: the `index` of the array it's iterating, which we can then include in
+our `send()` call.
 
 ```javascript
-const view = (params, state, send) => {
+const view = (state, prev, send) => {
   return html`
     <div>
       <form onsubmit=${onSubmit}>
@@ -252,7 +268,8 @@ const view = (params, state, send) => {
         ${state.todos.map((todo, index) => html`
           <li>
             <input type="checkbox" ${todo.completed ? 'checked' : ''} onchange=${(e) => {
-              send('setCompleted', { index, completed: e.target.checked })
+              const updates = { completed: e.target.checked }
+              send('updateTodo', { index, updates })
             }} />
             ${todo.title}
           </li>`)}
@@ -264,13 +281,11 @@ const view = (params, state, send) => {
 }
 ```
 
-First of all, you'll notice our `<input>` has grown to two lines. That's valid
-markup but not very readable, so feel free to move it to its own function like
-we did for `onSubmit`. Second, you'll notice we're passing `index` using the
-[ES6 property shorthand](http://es6-features.org/#PropertyShorthand) and the
-value of the checkbox's `checked` property.
+Here, we're passing `index` and an object of `updates` using the
+[ES6 property shorthand](http://es6-features.org/#PropertyShorthand) (rather than
+the redundant `{ index: index, updates: updates }`).
 
-Now we have to create a reducer called `setCompleted` to update the state when
+Now we have to create a reducer called `updateTodo` to update the state when
 this action is fired.
 
 ```javascript
@@ -279,26 +294,35 @@ app.model({
     todos: []
   },
   reducers: {
-    addTodo: (action, state) => {
+    addTodo: (data, state) => {
       . . .
     },
-    setCompleted: (action, state) => {
+    updateTodo: (data, state) => {
       const newTodos = [...state.todos]
-      newTodos[action.index].completed = action.completed
+      const oldItem = newTodos[data.index]
+      const newItem = Object.assign({}, oldItem, data.updates)
+      newTodos[data.index] = newItem
+      return { todos: newTodos }
     }
   }
 })
 ```
 
-In this reducer, we create a copy of `state.todos` so as not to mutate the state,
-then we alter the specific item in the new array, changing its `completed`
-property to whatever's been passed. Now your app will maintain the `completed`
-state when you add new items, as your state is being updated.
+In this reducer, we create a copy of the `state.todos` array, then we identify the
+item we're updating using the `index` that was passed. We then create a copy of
+that item and extend it with our `updates` using `Object.assign()`. Finally we
+replace the old item in the array with our new object.
 
-So far our app works great unless you refresh! Doing so clears your state, and
-you lose all your items. In a real-world app, you may want to persist your items
-to a server's database. For this example, we'll use `localStorage`, an in-browser
-database that lets you persist data between refreshes. We accomplish similar to
-how we'd accomplish communicating with a server: we use an *effect*.
+This may seem like a lot of work relative to simply altering the state directly,
+but immutability lets us compare the state across time and helps avoid bugs down
+the line.
+
+At this point your app will maintain the `completed` state when you add new items,
+as your state is being updated. So far our app works great unless you refresh!
+Doing so clears your state, and you lose all your items. In a real-world app, you
+may want to persist your items to a server's database. For this example, we'll use
+`localStorage`, an in-browser database that lets you persist data between refreshes.
+We accomplish similar to how we'd accomplish communicating with a server: we use an
+**effect**.
 
 ## Effects
