@@ -1,4 +1,18 @@
-We'll be using several features from ES6 here, but they're entirely optional.
+# Your first app
+
+Let's build a simple todo application using choo. This tutorial assumes you're
+familiar with a few things:
+
+* The concept of **models** and **views** (as in MVC)
+* The concept of **state** (the data your application is currently using)
+* A few JavaScript features from ES6 (aka ES2015) like `const`, the [spread
+operator](), [object destructuring](), [tagged template literals](), and
+[property shorthand]() (But don't worry: they're optional, they don't make
+it much harder to understand what's going on, and
+[choo works in older browsers]())
+* Importing JavaScript modules using `require(...)`
+
+## Rendering data
 
 First, let's import the `choo` module, the `html` builder, and initialize the
 application.
