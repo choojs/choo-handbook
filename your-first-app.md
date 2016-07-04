@@ -1,18 +1,28 @@
 # Your first app
 
-Let's build a simple todo application using choo. This tutorial assumes you're
+Let's build a small todo application using choo. This tutorial assumes you're
 familiar with a few things:
 
 * The concept of **models** and **views** (as in MVC)
 * The concept of **state** (the data your application is currently using)
-* A few JavaScript features from ES6 (aka ES2015) like `const`, the
-[spread operator](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Operators/Spread_operator),
-[destructuring assignment](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Operators/Destructuring_assignment),
-[tagged template strings](https://github.com/lukehoban/es6features#template-strings), and
-[property shorthand](https://github.com/lukehoban/es6features#enhanced-object-literals)
+* A few JavaScript features from ES6 (aka ES2015) like [`const`](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Statements/const),
+[arrow `=>` functions](https://github.com/lukehoban/es6features#arrows), and
+[tagged template strings](https://github.com/lukehoban/es6features#template-strings)
 (But don't worry: they're optional, they don't make it much harder to understand
 what's going on, and [choo supports older browsers](https://github.com/yoshuawuyts/choo/#choo--internet-explorer--safari))
-* Importing JavaScript modules using `require(...)`
+* `npm`, and importing JavaScript modules using `require(...)`
+
+As you go through this tutorial, please take note of anything that is confusing
+and [let us know about it](https://github.com/yoshuawuyts/workshop-choo/issues/12)
+so we can improve the tutorial.
+
+## Boilerplate
+
+Let's walk through the boilerplate necessary for this project. First, Create a
+new directory called `choodo` (clever, right?). Inside it, use the terminal to
+initialize `npm` via `npm init` (the default settings are fine). Now we'll
+install `choo` via `npm install --save choo` and create a file called `index.js`.
+The rest of this tutorial will take place inside that file.
 
 ## Rendering data
 
@@ -105,17 +115,21 @@ app.model({
 })
 ```
 
-In choo, state is meant to be immutable, so we would never want to alter `todos`
-directly (like `state.todos.push(newTodo)`). Instead, when we want to add an item
-to the `todos` array, we dispatch an **action** using
+Our first thought might be to add a button to the **view** that `.push()`es an
+item into `state.todos`. But choo embraces the concept of uni-directional data
+flow, so views cannot update the state directly. Instead, when we want to add an
+item to the `todos` array, we dispatch an **action** using
 `send('addTodo', { title: 'Buy milk' })`. choo then looks for a **reducer** on the
-model called `addTodo` and passes it `{ title: 'Buy milk' }`. The reducer should 
-return a new version of the state which choo will use to _replace_ the state under
-the hood (rather than alter/mutate it).
+model called `addTodo` and passes it `{ title: 'Buy milk' }`.
 
-Below, we add an `addTodo` reducer that uses the
-[ES6 spread operator](http://es6-features.org/#SpreadOperator) to create a copy
-of `state.todos` and add the new todo item to it.
+Choo also embraces immutability, so the reducer won't alter the current state;
+instead, it will make a copy of it, alter the copy, and return the copy. Choo will
+then _replace_ the state with the copy under the hood. This allows us to compare
+state over time (you'll notice views receive the current state and the
+previous state as parameters).
+
+Below, we add an `addTodo` reducer that creates a copy of `state.todos` and adds
+the new todo item to it, returning a new version of the state that uses the copy.
 
 ```javascript
 app.model({
@@ -124,7 +138,8 @@ app.model({
   },
   reducers: {
     addTodo: (data, state) => {
-      const newTodos = [...state.todos, data]
+      const newTodos = state.todos.slice()
+      newTodos.push(data)
       return { todos: newTodos }
     }
   }
@@ -215,8 +230,25 @@ the `<input>` should reset each time. But how do we mark the items as complete?
 
 We'll assume that every new item should be _not_ complete when it's created. Let's
 revisit our `addTodo` reducer and have it add that default property. Like `state`,
-we don't want to mutate/alter `data` directly, so we'll use `Object.assign()` to
-clone/extend it.
+we don't want to mutate/alter `data` directly, so we'll use the
+[xtend](https://github.com/Raynos/xtend) library to clone/extend it.
+
+To install the library, use:
+
+```bash
+npm install xtend
+```
+
+Then import it at the top of the file using:
+
+```javascript
+const extend = require('xtend')
+const choo = require('choo')
+const html = require('choo/html')
+const app = choo()
+```
+
+Now we're ready to update the `addTodo` reducer.
 
 ```javascript
 app.model({
@@ -225,10 +257,11 @@ app.model({
   },
   reducers: {
     addTodo: (data, state) => {
-      const todo = Object.assign({}, data, {
+      const todo = extend(data, {
         completed: false
       })
-      const newTodos = [...state.todos, todo]
+      const newTodos = state.todos.slice()
+      newTodos.push(todo)
       return { todos: newTodos }
     }
   }
@@ -289,7 +322,7 @@ const view = (state, prev, send) => {
           <li>
             <input type="checkbox" ${todo.completed ? 'checked' : ''} onchange=${(e) => {
               const updates = { completed: e.target.checked }
-              send('updateTodo', { index, updates })
+              send('updateTodo', { index: index, updates: updates })
             }} />
             ${todo.title}
           </li>`)}
@@ -301,12 +334,9 @@ const view = (state, prev, send) => {
 }
 ```
 
-Here, we're passing `index` and an object of `updates` using the
-[ES6 property shorthand](http://es6-features.org/#PropertyShorthand) (rather than
-the redundant `{ index: index, updates: updates }`).
-
-Now we have to create a reducer called `updateTodo` to update the state when
-this action is fired.
+Here, we're passing the `index` and an object of `updates` to the `updateTodo`
+reducer. Now we have to create the reducer to update the state when this action
+is fired.
 
 ```javascript
 app.model({
@@ -315,26 +345,24 @@ app.model({
   },
   reducers: {
     addTodo: (data, state) => {
-      . . .
+      // ...
     },
     updateTodo: (data, state) => {
-      const { index, updates } = data
-      const newTodos = [...state.todos]
-      const oldItem = newTodos[index]
-      const newItem = Object.assign({}, oldItem, updates)
-      newTodos[index] = newItem
+      const newTodos = state.todos.slice()
+      const oldItem = newTodos[data.index]
+      const newItem = extend(oldItem, data.updates)
+      newTodos[data.index] = newItem
       return { todos: newTodos }
     }
   }
 })
 ```
 
-In this reducer, we use [ES6 destructuring](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Operators/Destructuring_assignment)
-to create short-hand variables from the `data` object. We create a copy of the
-`state.todos` array, then we identify the item we're updating using the `index`
-that was passed. We then create a copy of that item and extend it with our
-`updates` using `Object.assign()`. Finally we replace the old item in the array
-with our new object.
+In this reducer, we create a copy of the `state.todos` array, then we identify
+the item we're updating using the `index` that was passed. We then create a copy
+of that item and extend it with our `updates` using `xtend`. Finally we replace
+the old item in the array with our new object and return the new version of the
+state.
 
 This may seem like a lot of work relative to simply altering the state directly,
 but immutability lets us compare the state across time and helps avoid bugs down
@@ -359,13 +387,13 @@ effect can pass off the list of users to a **reducer** called `receiveUsers`
 which simply updates the **state** with that list, separating the concerns of
 interacting with an API from updating the application's state.
 
-For the purposes of this tutorial, we'll use an abstraction of `localStorage`
+For the purposes of this tutorial, we'll use a wrapper around `localStorage`
 to resemble making an AJAX request. Drop this code snippet in anywhere - all it
-does is provide a wrapper around _getting_ a list of items from `localStorage`,
-_adding_ an item and _replacing_ an item. And it provides a callback just for
-appearances even though `localStorage` is synchronous. It's not very elegant and
-for demonstration purposes only. You don't need to learn how `localStorage` works
-for this tutorial; just pretend it's interacting with a database.
+does is `getAll` items from `localStorage`, `add` an item and `replace`
+an item. And it provides a callback just for appearances even though `localStorage`
+is synchronous. It's not very elegant and for demonstration purposes only. You
+don't need to learn how `localStorage` works for this tutorial; just pretend it's
+interacting with a database.
 
 ```javascript
 // localStorage wrapper
@@ -410,7 +438,7 @@ app.model({
     receiveTodos: (data, state) => {
       return { todos: data }
     }
-    . . .
+    // ...
   },
   effects: {
     getTodos: (data, state, send, done) => {
@@ -433,12 +461,12 @@ const view = (state, prev, send) => {
         <input type="text" placeholder="New item" id="title">
       </form>
       <ul>
-        . . .
+        // ...
       </ul>
     </div>`
 
   function onSubmit (e) {
-    . . .
+    // ...
 }
 ```
 
@@ -462,10 +490,11 @@ app.model({
   },
   reducers: {
     receiveTodos: (data, state) => {
-      . . .
+      // ...
     },
     receiveNewTodo: (data, state) => {
-      const newTodos = [...state.todos, data]
+      const newTodos = state.todos.slice()
+      newTodos.push(data)
       return { todos: newTodos }
     }
   },
@@ -474,7 +503,7 @@ app.model({
       . . .
     },
     addTodo: (data, state, send, done) => {
-      const todo = Object.assign({}, data, {
+      const todo = extend(data, {
         completed: false
       })
       
@@ -497,31 +526,30 @@ app.model({
   },
   reducers: {
     receiveTodos: (data, state) => {
-      . . .
+      // ...
     },
     receiveNewTodo: (data, state) => {
-      . . .
+      // ...
     },
     replaceTodo: (data, state) => {
-      const newTodos = [...state.todos]
+      const newTodos = state.todos.slice()
       newTodos[data.index] = data.todo
       return { todos: newTodos }
     }
   },
   effects: {
     getTodos: (data, state, send, done) => {
-      . . .
+      // ...
     },
     addTodo: (data, state, send, done) => {
-      . . .
+      // ...
     },
     updateTodo: (data, state, send, done) => {
-      const { index, updates } = data
-      const oldTodo = state.todos[index]
-      const newTodo = Object.assign({}, oldTodo, updates)
+      const oldTodo = state.todos[data.index]
+      const newTodo = extend(oldTodo, data.updates)
 
-      store.replace('todos', index, newTodo, () => {
-        send('replaceTodo', { index, todo: newTodo }, done)
+      store.replace('todos', data.index, newTodo, () => {
+        send('replaceTodo', { index: data.index, todo: newTodo }, done)
       })
     }
   }
@@ -538,9 +566,14 @@ the name of the action. Since our view is already wired up to call
 the page - you should be able to add items, mark them completed, refresh all
 you like and they'll still be there.
 
+Having gone through this tutorial, is there anything you had to re-read a few
+times or concepts we took for granted? Please [let us know](https://github.com/yoshuawuyts/workshop-choo/issues/12)
+so we can improve the tutorial!
+
 ## Full code
 
 ```javascript
+const extend = require('xtend')
 const choo = require('choo')
 const html = require('choo/html')
 const app = choo()
@@ -554,11 +587,12 @@ app.model({
       return { todos: data }
     },
     receiveNewTodo: (data, state) => {
-      const newTodos = [...state.todos, data]
+      const newTodos = state.todos.slice()
+      newTodos.push(data)
       return { todos: newTodos }
     },
     replaceTodo: (data, state) => {
-      const newTodos = [...state.todos]
+      const newTodos = state.todos.slice()
       newTodos[data.index] = data.todo
       return { todos: newTodos }
     }
@@ -570,7 +604,7 @@ app.model({
       })
     },
     addTodo: (data, state, send, done) => {
-      const todo = Object.assign({}, data, {
+      const todo = extend(data, {
         completed: false
       })
       
@@ -579,12 +613,11 @@ app.model({
       })
     },
     updateTodo: (data, state, send, done) => {
-      const { index, updates } = data
-      const oldTodo = state.todos[index]
-      const newTodo = Object.assign({}, oldTodo, updates)
+      const oldTodo = state.todos[data.index]
+      const newTodo = extend(oldTodo, data.updates)
 
-      store.replace('todos', index, newTodo, () => {
-        send('replaceTodo', { index, todo: newTodo }, done)
+      store.replace('todos', data.index, newTodo, () => {
+        send('replaceTodo', { index: data.index, todo: newTodo }, done)
       })
     }
   }
@@ -601,7 +634,7 @@ const view = (state, prev, send) => {
           <li>
             <input type="checkbox" ${todo.completed ? 'checked' : ''} onchange=${(e) => {
               const updates = { completed: e.target.checked }
-              send('updateTodo', { index, updates })
+              send('updateTodo', { index: index, updates: updates })
             }} />
             ${todo.title}
           </li>`)}
