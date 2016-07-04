@@ -2,9 +2,8 @@
 Learn [`choo`][choo] through a set of exercises:
 
 ## Contents
-- [sup-choo](sup-choo.md)
-- [concepts]()
-- [views]()
+- [Sup, choo](sup-choo.md)
+- [Your first app](your-first-app.md)
 
 ## License
 [MIT](https://tldrlegal.com/license/mit-license)
