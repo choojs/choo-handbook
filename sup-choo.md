@@ -1,7 +1,7 @@
 # sup choo
 Hey there stranger, welcome to this workshop. My name is
 [yosh](https://twitter.com/yoshuawuyts), and I'll be your host for today. I'm
-super stoked for you to be here. I'm goinging ahead and assume `choo` (choo
+super stoked for you to be here. I'm going to assume `choo` (choo
 choo!) has piqued your interest, and you want to get started. Let's do it!
 
 `choo` is a tiny little framework that tries to bridge the gap from prototyping
