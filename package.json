@@ -17,7 +17,9 @@
   },
   "homepage": "https://github.com/yoshuawuyts/workshop-choo#readme",
   "devDependencies": {
-    "budo": "^8.3.0",
-    "minidocs": "github:freeman-lab/minidocs#14d93cb"
+    "budo": "^8.3.0"
+  },
+  "dependencies": {
+    "minidocs": "^3.0.0"
   }
 }
