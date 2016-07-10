@@ -10,7 +10,8 @@ familiar with a few things:
 [tagged template strings](https://github.com/lukehoban/es6features#template-strings)
 (But don't worry: they're optional, they don't make it much harder to understand
 what's going on, and [choo supports older browsers](https://github.com/yoshuawuyts/choo/#choo--internet-explorer--safari))
-* `npm`, and importing JavaScript modules using `require(...)`
+* [npm](https://nodejs.org/en/download/), and importing JavaScript modules using
+`require(...)`
 
 As you go through this tutorial, please take note of anything that is confusing
 and [let us know about it](https://github.com/yoshuawuyts/workshop-choo/issues/12)
@@ -20,7 +21,7 @@ so we can improve the tutorial.
 
 Let's walk through the boilerplate necessary for this project. First, create a
 new directory called `choodo` (clever, right?). Inside it, use the terminal to
-initialize `npm` via `npm init` (the default settings are fine). Now we'll
+initialize [npm](https://nodejs.org/en/download/) via `npm init --yes`. Now we'll
 install `choo` via `npm install --save choo` and create a file called `index.js`.
 The rest of this tutorial will take place inside that file.
 
@@ -450,8 +451,9 @@ app.model({
 })
 ```
 
-Next we'll trigger the `getTodos` effect when our view is first loaded by adding
-an `onload` attribute in our DOM tree.
+Next we'll trigger the `getTodos` effect when our view is first loaded by using
+choo's `onload` lifecycle event. To use it, just add an `onload` function to the
+view, as seen in the `<div>` tag below.
 
 ```javascript
 const view = (state, prev, send) => {
