@@ -18,7 +18,7 @@ so we can improve the tutorial.
 
 ## Boilerplate
 
-Let's walk through the boilerplate necessary for this project. First, Create a
+Let's walk through the boilerplate necessary for this project. First, create a
 new directory called `choodo` (clever, right?). Inside it, use the terminal to
 initialize `npm` via `npm init` (the default settings are fine). Now we'll
 install `choo` via `npm install --save choo` and create a file called `index.js`.
