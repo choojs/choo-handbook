@@ -1,6 +1,7 @@
 {
   "introduction": {
     "sup choo": "sup-choo.md",
+    "designing for reusability": "designing-for-reusability.md",
     "your first app": "your-first-app.md"
   }
 }
