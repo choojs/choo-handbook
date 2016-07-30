@@ -3,5 +3,8 @@
     "sup choo": "sup-choo.md",
     "designing for reusability": "designing-for-reusability.md",
     "your first app": "your-first-app.md"
+  },
+  "guides": {
+    "rendering in node": "rendering-in-node.md"
   }
 }
