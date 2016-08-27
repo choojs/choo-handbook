@@ -58,6 +58,12 @@ prototyping tool that wraps `browserify` called `budo`. Install it with the
 $ npm install -g budo
 ```
 
+Since we are trying to have fun with `choo`, let's install the framework first:
+
+```sh
+$ npm install choo
+```
+
 And then run our `client.js` file:
 ```sh
 $ budo client.js
