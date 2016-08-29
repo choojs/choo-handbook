@@ -71,5 +71,5 @@ $ budo client.js
 [0001] 453ms      21KB (browserify)
 ```
 
-Annnnd that's it! Congratulations, you now you can navigate to your browser on
+Annnnd that's it! Congratulations, you can now navigate your browser to
 `localhost:9966` and your app should be alive!
