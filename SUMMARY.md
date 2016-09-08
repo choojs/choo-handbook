@@ -4,4 +4,5 @@
    * [Sup choo](sup-choo.md)
 * Guides
    * Designing for reusability
+   * Your first app
 
