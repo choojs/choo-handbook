@@ -5,5 +5,5 @@
 * Guides
    * [Designing for reusability](designing-for-reusability.md)
    * [Your first app](your-first-app.md)
-   * Rendering in Node
+   * [Rendering in Node](rendering-in-node.md)
 
