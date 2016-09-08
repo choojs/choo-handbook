@@ -1,7 +1,7 @@
 # Summary
 
 * [Introduction](README.md)
-   * Sup choo
+   * [Sup choo](sup-choo.md)
 * Guides
 * Sup choo
 
