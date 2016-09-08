@@ -5,4 +5,5 @@
 * Guides
    * Designing for reusability
    * Your first app
+   * Rendering in Node
 
