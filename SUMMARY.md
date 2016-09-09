@@ -1,9 +1,9 @@
-# Summary
+# summary
 
 * [Introduction](README.md)
-   * [Sup choo](sup-choo.md)
-* Guides
-   * [Designing for reusability](designing-for-reusability.md)
-   * [Your first app](your-first-app.md)
-   * [Rendering in Node](rendering-in-node.md)
-
+* getting-started
+  * [sup-choo](./getting-started/sup-choo.md)
+  * [your-first-app](./getting-started/your-first-app.md)
+* guides
+  * [designing-for-reusability](./guides/designing-for-reusability.md)
+  * [rendering-in-node](./guides/rendering-in-node.md)
