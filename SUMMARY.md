@@ -7,3 +7,5 @@
 * guides
   * [designing-for-reusability](./guides/designing-for-reusability.md)
   * [rendering-in-node](./guides/rendering-in-node.md)
+* views
+  * [widgets](./views/widgets.md)
