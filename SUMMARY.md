@@ -1,7 +1,6 @@
 # Summary
 
-* [Introduction](01_introduction.md)
-* [01 introduction](01_introduction.md)
+* [Introduction](README.md)
 * [02 your first app](02_your_first_app.md)
 * 03 elements
    * [01 html](03_elements/01_html.md)
