@@ -2,7 +2,6 @@
 
 create_summary () {
   printf '# summary\n\n'
-  printf '* [Introduction](README.md)\n'
 
   for f in ./*; do
     ext="$(echo "$f" | sed 's/.*\.//')"
