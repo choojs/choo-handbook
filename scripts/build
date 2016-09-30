@@ -1,0 +1,30 @@
+#!/bin/sh
+
+printf '# summary\n\n'
+printf '* [Introduction](README.md)\n'
+
+for f in ./*; do
+  ext="$(echo "$f" | sed 's/.*\.//')"
+  base="$(basename "$f" | sed 's/\..*//')"
+
+  # we found a top level markdown file, hurray!
+  if [ "$f" = './README.md' ]; then
+    continue
+  elif [ "$f" = './SUMMARY.md' ]; then
+    continue
+  elif [ "$ext" = 'md' ]; then
+    printf "* [%s](%s)\n" "$base" "$f"
+  elif [ "$f" = './node_modules' ]; then
+    continue
+  elif [ -d "$f" ]; then
+    printf "* %s\n" "$base"
+    for g in "$f"/*; do
+      g_ext="$(echo "$g" | sed 's/.*\.//')"
+      g_base="$(basename "$g" | sed 's/\..*//')"
+
+      if [ "$g_ext" = 'md' ]; then
+        printf '  * [%s](%s)\n' "$g_base" "$g"
+      fi
+    done
+  fi
+done
