@@ -1,0 +1,20 @@
+{
+  "name": "choo-handbook",
+  "version": "1.0.0",
+  "description": "The choo frontend framework",
+  "private": true,
+  "dependencies": {
+    "standard-markdown": "^1.2.1"
+  },
+  "scripts": {
+    "test": "standard-markdown"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/yoshuawuyts/choo-handbook.git"
+  },
+  "keywords": [],
+  "author": "Yoshua Wuyts <yoshuawuyts@gmail.com>",
+  "license": "MIT",
+  "homepage": "https://github.com/yoshuawuyts/choo-handbook#readme"
+}
