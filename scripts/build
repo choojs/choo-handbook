@@ -6,6 +6,7 @@ create_summary () {
   for f in ./*; do
     ext="$(echo "$f" | sed 's/.*\.//')"
     base="$(basename "$f" | sed 's/\..*//')"
+    mod_base="$(basename "$f" | sed 's/\..*//' | sed 's/[_-]/ /g')"
 
     # we found a top level markdown file, hurray!
     if [ "$f" = './README.md' ]; then
@@ -13,13 +14,13 @@ create_summary () {
     elif [ "$f" = './SUMMARY.md' ]; then
       continue
     elif [ "$ext" = 'md' ]; then
-      printf "* [%s](%s)\n" "$base" "$f"
+      printf "* [%s](%s)\n" "$mod_base" "$f"
     elif [ "$f" = './node_modules' ]; then
       continue
     elif [ "$f" = './scripts' ]; then
       continue
     elif [ -d "$f" ]; then
-      printf "* %s\n" "$base"
+      printf "* %s\n" "$(echo "$base" | sed 's/[_-]/ /g')"
       for g in "$f"/*; do
         g_ext="$(echo "$g" | sed 's/.*\.//')"
         g_base="$(basename "$g" | sed 's/\..*//' | sed 's/[_-]/ /g')"
