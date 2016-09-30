@@ -21,7 +21,6 @@ The source files from which this book is generated can be found on
 [GitHub][gh].
 
 [gh]: https://github.com/yoshuawuyts/choo-handbook
-[gs]: ../02_your_first_app.md
-[elements]: ../03_elements/01_html.md
-[routing]: ../04_routing/01_creating_a_router.md
-0
+[gs]: 02_your_first_app.md
+[elements]: 03_elements/01_html.md
+[routing]: 04_routing/01_creating_a_router.md

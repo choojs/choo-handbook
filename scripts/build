@@ -2,7 +2,7 @@
 
 create_summary () {
   printf '# summary\n\n'
-  printf '* [01 introduction](README.md)\n'
+  printf '* [README](README.md)\n'
 
   for f in ./*; do
     ext="$(echo "$f" | sed 's/.*\.//')"
@@ -13,8 +13,6 @@ create_summary () {
     if [ "$f" = './README.md' ]; then
       continue
     elif [ "$f" = './SUMMARY.md' ]; then
-      continue
-    elif [ "$f" = './01_introduction.md' ]; then
       continue
     elif [ "$ext" = 'md' ]; then
       printf "* [%s](%s)\n" "$mod_base" "$f"
