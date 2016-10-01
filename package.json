@@ -4,7 +4,7 @@
   "description": "The choo frontend framework",
   "private": true,
   "dependencies": {
-    "standard-markdown": "^1.2.1"
+    "standard-markdown": "^2.0.0"
   },
   "scripts": {
     "test": "standard-markdown"
