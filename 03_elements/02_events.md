@@ -37,8 +37,8 @@ We can now succesfully handle clicks on our button. Yay!
 ### function hoisting
 You may have noticed some things going on in our code though. If you're new to
 JavaScript you might be wondering how come we define a function at the bottom
-of the file, and use it above it. This is a nifty little feature called
-[function hoisting][hoisting]. It's a nice little way of putting what's
+of the file, and use it above it. This is a nifty little feature of JavaScript
+called [function hoisting][hoisting]. It's a nice little way of putting what's
 important at the top of the file, and leaving the exact details later in the
 file. There's some gotchas with it though, but using it in the way we just did
 is a great pattern to use.
