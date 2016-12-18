@@ -138,7 +138,7 @@ app.model({
     todos: []
   },
   reducers: {
-    addTodo: (data, state) => {
+    addTodo: (state, data) => {
       const newTodos = state.todos.slice()
       newTodos.push(data)
       return { todos: newTodos }
@@ -257,7 +257,7 @@ app.model({
     todos: []
   },
   reducers: {
-    addTodo: (data, state) => {
+    addTodo: (state, data) => {
       const todo = extend(data, {
         completed: false
       })
@@ -436,7 +436,7 @@ app.model({
     todos: []
   },
   reducers: {
-    receiveTodos: (data, state) => {
+    receiveTodos: (state, data) => {
       return { todos: data }
     }
     // ...
