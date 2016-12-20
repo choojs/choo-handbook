@@ -75,8 +75,8 @@ const view = (state, prev, send) => {
 Next, we'll use choo's `router` to make our view show up as the default route.
 
 ```javascript
-app.router((route) => [
-  route('/', view)
+app.router([
+  ['/', view]
 ])
 ```
 
@@ -651,8 +651,8 @@ const view = (state, prev, send) => {
   }
 }
 
-app.router((route) => [
-  route('/', view)
+app.router([
+  ['/', view]
 ])
 
 const tree = app.start()
