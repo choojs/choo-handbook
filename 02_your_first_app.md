@@ -237,7 +237,7 @@ we don't want to mutate/alter `data` directly, so we'll use the
 To install the library, use:
 
 ```bash
-npm install xtend
+npm install --save xtend
 ```
 
 Then import it at the top of the file using:
