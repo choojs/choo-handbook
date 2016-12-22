@@ -345,10 +345,10 @@ app.model({
     todos: []
   },
   reducers: {
-    addTodo: (data, state) => {
+    addTodo: (state, data) => {
       // ...
     },
-    updateTodo: (data, state) => {
+    updateTodo: (state, data) => {
       const newTodos = state.todos.slice()
       const oldItem = newTodos[data.index]
       const newItem = extend(oldItem, data.updates)
@@ -442,7 +442,7 @@ app.model({
     // ...
   },
   effects: {
-    getTodos: (data, state, send, done) => {
+    getTodos: (state, data, send, done) => {
       store.getAll('todos', (todos) => {
         send('receiveTodos', todos, done)
       })
@@ -527,26 +527,26 @@ app.model({
     todos: []
   },
   reducers: {
-    receiveTodos: (data, state) => {
+    receiveTodos: (state, data) => {
       // ...
     },
-    receiveNewTodo: (data, state) => {
+    receiveNewTodo: (state, data) => {
       // ...
     },
-    replaceTodo: (data, state) => {
+    replaceTodo: (state, data) => {
       const newTodos = state.todos.slice()
       newTodos[data.index] = data.todo
       return { todos: newTodos }
     }
   },
   effects: {
-    getTodos: (data, state, send, done) => {
+    getTodos: (state, state, send, done) => {
       // ...
     },
-    addTodo: (data, state, send, done) => {
+    addTodo: (state, data, send, done) => {
       // ...
     },
-    updateTodo: (data, state, send, done) => {
+    updateTodo: (state, data, send, done) => {
       const oldTodo = state.todos[data.index]
       const newTodo = extend(oldTodo, data.updates)
 
@@ -585,27 +585,27 @@ app.model({
     todos: []
   },
   reducers: {
-    receiveTodos: (data, state) => {
+    receiveTodos: (state, data) => {
       return { todos: data }
     },
-    receiveNewTodo: (data, state) => {
+    receiveNewTodo: (state, data) => {
       const newTodos = state.todos.slice()
       newTodos.push(data)
       return { todos: newTodos }
     },
-    replaceTodo: (data, state) => {
+    replaceTodo: (state, data) => {
       const newTodos = state.todos.slice()
       newTodos[data.index] = data.todo
       return { todos: newTodos }
     }
   },
   effects: {
-    getTodos: (data, state, send, done) => {
+    getTodos: (state, data, send, done) => {
       store.getAll('todos', (todos) => {
         send('receiveTodos', todos, done)
       })
     },
-    addTodo: (data, state, send, done) => {
+    addTodo: (state, data, send, done) => {
       const todo = extend(data, {
         completed: false
       })
@@ -614,7 +614,7 @@ app.model({
         send('receiveNewTodo', todo, done)
       })
     },
-    updateTodo: (data, state, send, done) => {
+    updateTodo: (state, data, send, done) => {
       const oldTodo = state.todos[data.index]
       const newTodo = extend(oldTodo, data.updates)
 
