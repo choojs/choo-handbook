@@ -69,7 +69,7 @@ html`
 `
 
 function onInput (event) {
-  console.log('value is: ' + e.target.value)
+  console.log('value is: ' + event.target.value)
 }
 ```
 
