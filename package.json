@@ -1,20 +1,29 @@
 {
   "name": "choo-handbook",
   "version": "1.0.0",
-  "description": "The choo frontend framework",
-  "private": true,
-  "dependencies": {
-    "standard-markdown": "^2.1.1"
-  },
-  "scripts": {
-    "test": "standard-markdown"
-  },
-  "repository": {
-    "type": "git",
-    "url": "git+https://github.com/yoshuawuyts/choo-handbook.git"
-  },
-  "keywords": [],
-  "author": "Yoshua Wuyts <yoshuawuyts@gmail.com>",
   "license": "MIT",
-  "homepage": "https://github.com/yoshuawuyts/choo-handbook#readme"
+  "private": true,
+  "scripts": {
+    "build": "bankai build -O",
+    "start": "bankai start",
+    "test": "standard && standard-markdown"
+  },
+  "browserify": {
+    "transform": [
+      "brfs"
+    ]
+  },
+  "dependencies": {
+    "brfs": "^1.4.3",
+    "choo": "^4.0.3",
+    "highlight-syntax": "^3.0.2",
+    "highlight-syntax-pastel": "^1.0.0",
+    "marked": "^0.3.6",
+    "tachyons": "^4.6.1"
+  },
+  "devDependencies": {
+    "bankai": "^5.2.0",
+    "standard": "^8.6.0",
+    "standard-markdown": "^2.1.1"
+  }
 }
