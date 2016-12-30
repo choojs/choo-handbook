@@ -62,10 +62,10 @@ function styleHtml (_html) {
 
     var node = html`
       <section class="flex flex-column flex-row-l justify-between-l content-around">
-        <div class="mw6">
+        <div class="mw6 mt3 lh-copy f4 f5-ns">
           ${text}
         </div>
-        <div class="mv0 ml4-l bt-l b--mid-gray ph4 mw6 w-100 f6 f5-l bg-dark-gray overflow-auto self-stretch">
+        <div class="mv0 pt3 ml4-l bt-l b--mid-gray ph4 mw6 w-100 f6 f5-l bg-dark-gray overflow-auto self-stretch">
           ${code}
         </div>
       </section>
@@ -86,8 +86,11 @@ function splitHtml (str) {
   var pushed = false
   var tuple = [ [], [] ] // the first array holds text, second is for code
 
+  var header = el.childNodes[0]
+  header.setAttribute('class', 'f2 f1-l')
+  res.push([ [ header ], [] ])
+
   var len = el.childNodes.length
-  res.push([ [ el.childNodes[0] ], [] ])
   for (var i = 1; i < len; i++) {
     var node = el.childNodes[i]
     pushed = false
@@ -98,6 +101,9 @@ function splitHtml (str) {
       pushed = true
       tuple = [ [], [] ]
     } else {
+      if (node.nodeName === 'H2') {
+        node.setAttribute('class', 'f2-l f3 bt bw2')
+      }
       tuple[0].push(node)
     }
 
