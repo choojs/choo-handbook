@@ -9,7 +9,9 @@ var fs = require('fs')
 
 ;css('tachyons')
 ;css('highlight-syntax-pastel')
-var bodyStyles = css`:host { background-color: #ffc0cb }`
+;css`
+  .choo-pink { background-color: #ffc0cb }
+`
 
 var highlight = Highlight([ require('highlight-syntax/js') ])
 
@@ -20,7 +22,7 @@ mount('body', app.start())
 
 function mainView () {
   return html`
-    <body class="${bodyStyles} flex flex-row">
+    <body class="choo-pink flex justify-left justify-center-m justify-between-l pa4 pa0-l">
       ${Nav()}
       ${Main()}
     </body>
@@ -29,7 +31,7 @@ function mainView () {
 
 function Nav () {
   return html`
-    <nav class="dn db-ns 100vh mw6 underline pa4">
+    <nav class="dn db-l mw6 underline pa4">
       <div>1. Rendering in Node</div>
     </nav>
   `
@@ -42,7 +44,7 @@ function Main () {
   var ___html = styleHtml(__html)
 
   return html`
-    <main class="mw8 cf">
+    <main class="mw-100 mw9-ns">
       ${___html}
     </main>
   `
@@ -59,11 +61,11 @@ function styleHtml (_html) {
     var code = tuple[1][0]
 
     var node = html`
-      <section class="flex flex-column flex-row-ns justify-between-ns content-stretch">
+      <section class="flex flex-column flex-row-l justify-between-l content-around">
         <div class="mw6">
           ${text}
         </div>
-        <div class="bg-dark-gray overflow-auto mv0 ml4-ns ph4 mw6 w-100 f6 f5-l bg-dark-gray self-stretch">
+        <div class="mv0 ml4-l bt-l b--mid-gray ph4 mw6 w-100 f6 f5-l bg-dark-gray overflow-auto self-stretch">
           ${code}
         </div>
       </section>
@@ -71,7 +73,9 @@ function styleHtml (_html) {
     res.push(node)
   }
 
-  return res
+  return html`
+    <div>${res}</div>
+  `
 }
 
 function splitHtml (str) {
@@ -98,7 +102,7 @@ function splitHtml (str) {
     }
 
     if (i === (len - 1) && !pushed) {
-      tuple[1].push(html`<pre class="dn db-ns"></pre>`)
+      tuple[1].push(html`<pre class="dn db-l"></pre>`)
       res.push(tuple)
     }
   }
