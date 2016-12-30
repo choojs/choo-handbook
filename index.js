@@ -8,6 +8,7 @@ var choo = require('choo')
 var fs = require('fs')
 
 ;css('tachyons')
+;css('vhs/css/vhs.css')
 ;css('highlight-syntax-pastel')
 ;css`
   .choo-pink { background-color: #ffc0cb }
@@ -31,8 +32,12 @@ function mainView () {
 
 function Nav () {
   return html`
-    <nav class="dn db-l mw6 underline pa4">
-      <div>1. Rendering in Node</div>
+    <nav class="dn db-l mw6 pa4 vh-100-l fixed">
+      ${Logo('handbook')}
+      <h3 class="f3 bt bw2 pv3 mb0">Core concepts</h3>
+      <div class="f5 f4-l underline">
+        1. Rendering in Node
+      </div>
     </nav>
   `
 }
@@ -44,7 +49,7 @@ function Main () {
   var ___html = styleHtml(__html)
 
   return html`
-    <main class="mw-100 mw9-ns">
+    <main class="mw-100 mw9-ns ml7-ns pl4-l">
       ${___html}
     </main>
   `
@@ -65,7 +70,7 @@ function styleHtml (_html) {
         <div class="mw6 mt3 lh-copy f4 f5-ns">
           ${text}
         </div>
-        <div class="mv0 pt3 ml4-l bt-l b--mid-gray ph4 mw6 w-100 f6 f5-l bg-dark-gray overflow-auto self-stretch">
+        <div class="mv0 pt3 ml4-l bt-l b--mid-gray ph4 mw6 w-100 f6 f5-l bg-dark-gray overflow-auto">
           ${code}
         </div>
       </section>
@@ -114,4 +119,32 @@ function splitHtml (str) {
   }
 
   return res
+}
+
+function Logo (text) {
+  var prefix = css`
+    :host .c,
+    :host .h,
+    :host .o { letter-spacing: -0.25em }
+
+    @media screen and (min-width: 30em) {
+      :host .c { letter-spacing: -0.25em }
+      :host .h { letter-spacing: -0.1em }
+      :host .o { letter-spacing: 0.05em }
+    }
+  `
+  return html`
+    <h1 class="f3 f2-l lh-title mt0 mb3 mb4-ns vhs-left ${prefix}">
+      <a href="http://choo.io" class="black link">
+        <span class="c">C</span>
+        <span class="h">H</span>
+        <span class="o">O</span>
+        <span>O</span>
+      </a>
+      <br class="dn db-ns">
+      <span class="vhs-flicker vhs-delay-4 ttu">
+        ${text}
+      </span>
+    </h1>
+  `
 }

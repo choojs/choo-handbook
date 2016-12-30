@@ -19,7 +19,8 @@
     "highlight-syntax": "^3.0.2",
     "highlight-syntax-pastel": "^1.0.0",
     "marked": "^0.3.6",
-    "tachyons": "^4.6.1"
+    "tachyons": "^4.6.1",
+    "vhs": "^0.2.0"
   },
   "devDependencies": {
     "bankai": "^5.2.0",
