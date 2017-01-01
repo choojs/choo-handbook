@@ -78,9 +78,7 @@ function styleHtml (_html) {
     res.push(node)
   }
 
-  return html`
-    <div>${res}</div>
-  `
+  return res
 }
 
 function splitHtml (str) {
@@ -101,13 +99,23 @@ function splitHtml (str) {
     pushed = false
 
     if (node.nodeName === 'PRE') {
-      node.setAttribute('class', 'pa3 ph4-l')
+      node.setAttribute('class', 'pa3 ph4-l lh-copy')
       tuple[1].push(node)
       res.push(tuple)
       pushed = true
       tuple = [ [], [] ]
     } else {
-      if (node.nodeName === 'H2') {
+      if (node.nodeName === 'P') {
+        node.setAttribute('class', 'f4 lh-copy')
+        findEl(node, 'A', function (el) {
+          el.setAttribute('class', 'black link underline')
+        })
+      } else if (node.nodeName === 'UL') {
+        node.setAttribute('class', 'f4 lh-copy')
+        findEl(node, 'LI', function (el) {
+          el.setAttribute('class', 'mt1')
+        })
+      } else if (node.nodeName === 'H2') {
         node.setAttribute('class', 'f2-l f3 bt bw2')
       }
       tuple[0].push(node)
@@ -148,4 +156,17 @@ function Logo (text) {
       </span>
     </h1>
   `
+}
+
+function findEl (node, type, cb) {
+  var childNodes = node.childNodes
+  var childLen = childNodes.length
+  for (var j = 0; j < childLen; j++) {
+    var childEl = childNodes[j]
+    if (childEl.nodeName === type) {
+      cb(childEl)
+    } else if (childEl.childNodes.length) {
+      findEl(childEl, type, cb)
+    }
+  }
 }
