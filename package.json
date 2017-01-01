@@ -10,6 +10,7 @@
   },
   "browserify": {
     "transform": [
+      "read-directory/transform",
       "brfs"
     ]
   },
@@ -19,6 +20,7 @@
     "highlight-syntax": "^3.0.2",
     "highlight-syntax-pastel": "^1.0.0",
     "marked": "^0.3.6",
+    "read-directory": "^2.0.0",
     "tachyons": "^4.6.1",
     "vhs": "^0.2.0"
   },

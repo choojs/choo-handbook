@@ -1,11 +1,11 @@
 var Highlight = require('highlight-syntax')
+var read = require('read-directory')
 var mount = require('choo/mount')
 var html = require('choo/html')
 var marked = require('marked')
 var css = require('sheetify')
 var path = require('path')
 var choo = require('choo')
-var fs = require('fs')
 
 ;css('tachyons')
 ;css('vhs/css/vhs.css')
@@ -15,35 +15,88 @@ var fs = require('fs')
 `
 
 var highlight = Highlight([ require('highlight-syntax/js') ])
+var files = read.sync(path.join(__dirname, 'content'))
+
+var layout = [
+  [ 'Introduction', files.introduction ],
+  [ 'core concepts', [
+    [ 'Your first app', files['core_your-first-app'] ]
+  ]],
+  [ 'node', [
+    [ 'Rendering in Node', files['node_rendering-in-node'] ]
+  ]]
+]
+
+var routes = (function walk (tree) {
+  if (typeof tree[0] === 'string') {
+    var newRoute = ('/' + tree[0].replace(/ /g, '-').toLowerCase())
+    if (newRoute === '/introduction') newRoute = '/'
+    if (Array.isArray(tree[1])) {
+      return [ newRoute, tree[1].map(walk) ]
+    } else {
+      return [ newRoute, mainView(tree[1]) ]
+    }
+  }
+  return tree.map(walk)
+})(layout)
 
 var app = choo()
-app.router([ '/', mainView ])
+app.router(routes)
+
+app.model({ namespace: 'layout', state: { value: layout } })
+app.model({ namespace: 'files', state: files })
 
 mount('body', app.start())
 
-function mainView () {
-  return html`
-    <body class="choo-pink flex justify-left justify-center-m justify-between-l pa4 pa0-l">
-      ${Nav()}
-      ${Main()}
-    </body>
-  `
+function mainView (src) {
+  return function (state) {
+    return html`
+      <body class="choo-pink flex justify-left justify-center-m justify-between-l pa4 pa0-l">
+        ${Nav(state.layout.value)}
+        ${Main(src)}
+      </body>
+    `
+  }
 }
 
-function Nav () {
+function Nav (layout) {
+  var index = 1
+  var nav = [ Logo('handbook') ]
+  fmt(layout, nav, '')
   return html`
     <nav class="dn db-l mw6 pa4 vh-100-l fixed">
-      ${Logo('handbook')}
-      <h3 class="f3 bt bw2 pv3 mb0">Core concepts</h3>
-      <div class="f5 f4-l underline">
-        1. Rendering in Node
-      </div>
+      ${nav}
     </nav>
   `
+
+  function fmt (tree, arr, base) {
+    if (typeof tree[0] === 'string') {
+      var name = tree[0]
+      if (Array.isArray(tree[1])) {
+        arr.push(html`<h3 class="f3 bt bw2 pv3 mb0">${name}</h3>`)
+        tree[1].map(function (node) {
+          fmt(node, arr, base + '/' + name.replace(/ /g, '-').toLowerCase())
+        })
+      } else {
+        var url = (base + '/' + name.replace(/ /g, '-').toLowerCase())
+        if (url === '/introduction') url = '/'
+        arr.push(html`
+          <div>
+            <a class="f5 f4-l underline black link" href=${url}>
+              ${index++ + '. ' + name}
+            </a>
+          </div>
+        `)
+      }
+    } else {
+      tree.forEach(function (node) {
+        fmt(node, arr, base)
+      })
+    }
+  }
 }
 
-function Main () {
-  var src = fs.readFileSync(path.join(__dirname, 'content/rendering-in-node.md'), 'utf8')
+function Main (src) {
   var _html = marked(src, { highlight: highlight })
   var __html = splitHtml(_html)
   var ___html = styleHtml(__html)
