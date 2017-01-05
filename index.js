@@ -29,12 +29,13 @@ var layout = [
 
 var routes = (function walk (tree) {
   if (typeof tree[0] === 'string') {
-    var newRoute = ('/' + tree[0].replace(/ /g, '-').toLowerCase())
-    if (newRoute === '/introduction') newRoute = '/'
     if (Array.isArray(tree[1])) {
+      var newRoute = ('#' + tree[0].replace(/ /g, '-').toLowerCase())
       return [ newRoute, tree[1].map(walk) ]
     } else {
-      return [ newRoute, mainView(tree[1]) ]
+      var routeNode = ('/' + tree[0].replace(/ /g, '-').toLowerCase())
+      if (routeNode === '/introduction') routeNode = '/'
+      return [ routeNode, mainView(tree[1]) ]
     }
   }
   return tree.map(walk)
@@ -70,29 +71,33 @@ function Nav (layout) {
   `
 
   function fmt (tree, arr, base) {
-    if (typeof tree[0] === 'string') {
-      var name = tree[0]
-      if (Array.isArray(tree[1])) {
-        arr.push(html`<h3 class="f3 bt bw2 pv3 mb0">${name}</h3>`)
-        tree[1].map(function (node) {
-          fmt(node, arr, base + '/' + name.replace(/ /g, '-').toLowerCase())
-        })
-      } else {
-        var url = (base + '/' + name.replace(/ /g, '-').toLowerCase())
-        if (url === '/introduction') url = '/'
-        arr.push(html`
-          <div>
-            <a class="f5 f4-l underline black link" href=${url}>
-              ${index++ + '. ' + name}
-            </a>
-          </div>
-        `)
-      }
-    } else {
-      tree.forEach(function (node) {
+    if (typeof tree[0] !== 'string') {
+      return tree.forEach(function (node) {
         fmt(node, arr, base)
       })
     }
+
+    var name = tree[0]
+    if (Array.isArray(tree[1])) {
+      arr.push(html`<h3 class="f3 bt bw2 pv3 mb0">${name}</h3>`)
+      return tree[1].map(function (node) {
+        var url = (base === '')
+          ? ('#' + name.replace(/ /g, '-').toLowerCase())
+          : (base + '/' + name.replace(/ /g, '-').toLowerCase())
+        fmt(node, arr, url)
+      })
+    }
+
+    var url = (base + '/' + name.replace(/ /g, '-').toLowerCase())
+    if (url === '#introduction') url = '/'
+
+    arr.push(html`
+      <div>
+        <a class="f5 f4-l underline black link" href=${url}>
+          ${index++ + '. ' + name}
+        </a>
+      </div>
+    `)
   }
 }
 
