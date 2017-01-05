@@ -202,7 +202,7 @@ function Logo (text) {
   `
   return html`
     <h1 class="f3 f2-l lh-title mt0 mb3 mb4-ns vhs-left ${prefix}">
-      <a href="http://choo.io" class="black link">
+      <a href="https://choo.io" class="black link">
         <span class="c">C</span>
         <span class="h">H</span>
         <span class="o">O</span>
