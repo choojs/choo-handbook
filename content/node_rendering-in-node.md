@@ -17,10 +17,11 @@ QPS][qps] we go!
 To render in Node call the `.toString()` method instead of `.start()`. The
 first argument is the path that should be rendered, the second is the state:
 ```js
-const http = require('http')
-const client = require('./client')  // path to client entry point
+var http = require('http')
+var client = require('./path-to-client')
+
 http.createServer(function (req, res) {
-  const html = client.toString('/', { message: 'hello server!' })
+  var html = client.toString('/', { message: 'hello server!' })
   res.setHeader('Content-Type', 'text/html; charset=utf-8')
   res.end(html)
 })
@@ -29,17 +30,23 @@ http.createServer(function (req, res) {
 In order to make our `choo` app call `app.start()` in the browser and be
 `require()`-able in Node, we check if [`module.parent`][module-parent] exists:
 ```js
-const choo = require('choo')
-const app = choo()
+var html = require('choo/html')
+var choo = require('choo')
 
-app.router((route) => [
-  route('/', (params, state, send) => choo.view`
+var app = choo()
+app.router([ '/', mainView ])
+
+if (module.parent) {
+  module.exports = app
+} else {
+  document.body.appendChild(app.start())
+}
+
+function (state, prev, send) {
+  return html`
     <h1>${state.message}</h1>
-  `)
-])
-
-if (module.parent) module.exports = app
-else document.body.appendChild(app.start())
+  `
+}
 ```
 
 ## Rehydration
@@ -58,17 +65,24 @@ slightly different from what we've seen so far, because we're _updating_ a
 dehydrated DOM nodes to make them dynamic, rather than a new DOM tree and
 attaching it to the DOM.
 ```js
-const choo = require('choo')
-const app = choo()
+var mount = require('choo/mount')
+var html = require('choo/html')
+var choo = require('choo')
 
-app.router((route) => [
-  route('/', (params, state, send) => choo.view`
+var app = choo()
+app.router([ '/', mainView ])
+
+if (module.parent) {
+  module.exports = app
+} else {
+  mount('body', app.start())
+}
+
+function mainView (params, state, send) {
+  return html`
     <h1 id="app-root">${state.message}</h1>
-  `)
-])
-
-if (module.parent) module.exports = app
-else app.start('#app-root'))
+  `
+}
 ```
 
 When the JS is booted on top of the dehydrated application, it will look for

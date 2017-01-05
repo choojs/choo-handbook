@@ -382,7 +382,7 @@ use an **effect**.
 **Effects** are similar to **reducers** except instead of modifying the **state**
 they cause _side effects_ by interacting servers, databases, DOM APIs, etc. Often
 they'll call a reducer when they're done to update the state. For instance, you
-may have an **effect** called `getUsers` that fetches a list of users from a 
+may have an **effect** called `getUsers` that fetches a list of users from a
 server API using AJAX. Assuming the AJAX request completes successfully, the
 effect can pass off the list of users to a **reducer** called `receiveUsers`
 which simply updates the **state** with that list, separating the concerns of
@@ -428,7 +428,7 @@ Now back to our application code! Let's start by creating an effect called
 `getAll` to get an array of our `todos`. Once it completes, we'll use `send()`
 to pass it off to a very simple `receiveTodos` reducer to be applied to the
 state. Notice that when used inside an **effect**, `send()` requires a third
-parameter: `done`. This allows effects to be chained together in a sequence. 
+parameter: `done`. This allows effects to be chained together in a sequence.
 
 ```javascript
 app.model({
@@ -508,7 +508,7 @@ app.model({
       const todo = extend(data, {
         completed: false
       })
-      
+
       store.add('todos', todo, () => {
         send('receiveNewTodo', todo, done)
       })
@@ -609,7 +609,7 @@ app.model({
       const todo = extend(data, {
         completed: false
       })
-      
+
       store.add('todos', todo, () => {
         send('receiveNewTodo', todo, done)
       })
