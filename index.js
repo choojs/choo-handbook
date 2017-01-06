@@ -67,7 +67,7 @@ mount('body', app.start())
 function mainView (src) {
   return function (state) {
     return html`
-      <body class="choo-pink flex justify-left justify-center-m justify-between-l pa4 pa0-l">
+      <body class="choo-pink cf">
         ${Nav(state.layout.value)}
         ${Main(src)}
       </body>
@@ -80,7 +80,7 @@ function Nav (layout) {
   var nav = [ Logo('handbook') ]
   fmt(layout, nav, '')
   return html`
-    <nav class="dn db-l mw6 pa4 vh-100-l fixed">
+    <nav class="fl dn db-l mw6 pa4 vh-100-l fixed overflow-y-scroll">
       ${nav}
     </nav>
   `
@@ -104,7 +104,7 @@ function Nav (layout) {
     }
 
     var url = (base + '/' + name.replace(/ /g, '-').toLowerCase())
-    if (url === '#introduction') url = '/'
+    if (url === '/introduction') url = '/'
 
     arr.push(html`
       <div>
@@ -122,7 +122,7 @@ function Main (src) {
   var ___html = styleHtml(__html)
 
   return html`
-    <main class="mw-100 mw9-ns ml7-l pl4-l">
+    <main class="fr mw-100 mw9-ns">
       ${___html}
     </main>
   `
