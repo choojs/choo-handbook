@@ -7,12 +7,16 @@ var css = require('sheetify')
 var path = require('path')
 var choo = require('choo')
 
+var walk = require('./lib/create-routes')(mainView)
+var splitHtml = require('./lib/style-markdown')
+var formatAside = require('./lib/style-aside')
 
 ;css('tachyons')
 ;css('vhs/css/vhs.css')
 ;css('highlight-syntax-pastel')
 ;css`
   .choo-pink { background-color: #ffc0cb }
+  .min-100 { min-width: 100% }
 `
 
 var highlight = Highlight([ require('highlight-syntax/js') ])
@@ -42,19 +46,7 @@ var layout = [
   ]]
 ]
 
-var routes = (function walk (tree) {
-  if (typeof tree[0] === 'string') {
-    if (Array.isArray(tree[1])) {
-      var newRoute = ('#' + tree[0].replace(/ /g, '-').toLowerCase())
-      return [ newRoute, tree[1].map(walk) ]
-    } else {
-      var routeNode = ('/' + tree[0].replace(/ /g, '-').toLowerCase())
-      if (routeNode === '/introduction') routeNode = '/'
-      return [ routeNode, mainView(tree[1]) ]
-    }
-  }
-  return tree.map(walk)
-})(layout)
+var routes = walk(layout, mainView)
 
 var app = choo()
 app.router(routes)
@@ -67,140 +59,54 @@ mount('body', app.start())
 function mainView (src) {
   return function (state) {
     return html`
-      <body class="choo-pink cf">
-        ${Nav(state.layout.value)}
+      <body class="choo-pink flex justify-between-ns items-stretch">
+        ${Navigation(state.layout.value)}
         ${Main(src)}
       </body>
     `
   }
 }
 
-function Nav (layout) {
-  var index = 1
-  var nav = [ Logo('handbook') ]
-  fmt(layout, nav, '')
+function Navigation (layout) {
+  var arr = []
+  formatAside(layout, arr, '')
   return html`
-    <nav class="fl dn db-l mw6 pa4 vh-100-l fixed overflow-y-scroll">
-      ${nav}
-    </nav>
-  `
-
-  function fmt (tree, arr, base) {
-    if (typeof tree[0] !== 'string') {
-      return tree.forEach(function (node) {
-        fmt(node, arr, base)
-      })
-    }
-
-    var name = tree[0]
-    if (Array.isArray(tree[1])) {
-      arr.push(html`<h3 class="f3 bt bw2 pv3 mb0">${name}</h3>`)
-      return tree[1].map(function (node) {
-        var url = (base === '')
-          ? ('#' + name.replace(/ /g, '-').toLowerCase())
-          : (base + '/' + name.replace(/ /g, '-').toLowerCase())
-        fmt(node, arr, url)
-      })
-    }
-
-    var url = (base + '/' + name.replace(/ /g, '-').toLowerCase())
-    if (url === '/introduction') url = '/'
-
-    arr.push(html`
-      <div>
-        <a class="f5 f4-l underline black link" href=${url}>
-          ${index++ + '. ' + name}
-        </a>
+    <aside class="dn db-l mw6 vh-100-l fixed ">
+      <div class="mt0 ma3 mb2-ns mv4-ns ">
+        ${Logo('handbook')}
       </div>
-    `)
-  }
+      <div class="pl3 overflow-y-scroll h-100">
+        ${arr}
+      </div>
+    </aside>
+  `
 }
 
 function Main (src) {
   var _html = marked(src, { highlight: highlight })
-  var __html = splitHtml(_html)
-  var ___html = styleHtml(__html)
-
   return html`
-    <main class="fr mw-100 mw9-ns">
-      ${___html}
+    <main class="ma0-l flex-ns flex-column-ns">
+      ${styleHtml(splitHtml(_html))}
     </main>
   `
-}
 
-function styleHtml (_html) {
-  var res = []
-  var len = _html.length
-  res.push(_html[0][0])
+  function styleHtml (elements) {
+    return elements.map(function (tuple) {
+      var text = tuple[0]
+      var code = tuple[1][0]
 
-  for (var i = 1; i < len; i++) {
-    var tuple = _html[i]
-    var text = tuple[0]
-    var code = tuple[1][0]
-
-    var node = html`
-      <section class="flex flex-column flex-row-l justify-between-l content-around">
-        <div class="mw6 mt3 lh-copy f4 f5-ns">
-          ${text}
-        </div>
-        <div class="mv0 ml4-l bt-l b--mid-gray mw6 w-100 f6 f5-l bg-dark-gray overflow-auto">
-          ${code}
-        </div>
-      </section>
-    `
-    res.push(node)
+      return html`
+        <article>
+          <div class="w-100 w-50-ns mt3 lh-copy f4 f5-ns">
+            ${text}
+          </div>
+          <div class="mv0 ml4-l bt-l b--mid-gray measure f6 f5-l bg-dark-gray overflow-auto">
+            ${code}
+          </div>
+        </section>
+      `
+    })
   }
-
-  return res
-}
-
-function splitHtml (str) {
-  var el = html`<div></div>`
-  el.innerHTML = str
-
-  var res = []
-  var pushed = false
-  var tuple = [ [], [] ] // the first array holds text, second is for code
-
-  var header = el.childNodes[0]
-  header.setAttribute('class', 'f2 f1-l')
-  res.push([ [ header ], [] ])
-
-  var len = el.childNodes.length
-  for (var i = 1; i < len; i++) {
-    var node = el.childNodes[i]
-    pushed = false
-
-    if (node.nodeName === 'PRE') {
-      node.setAttribute('class', 'pa3 ph4-l lh-copy')
-      tuple[1].push(node)
-      res.push(tuple)
-      pushed = true
-      tuple = [ [], [] ]
-    } else {
-      if (node.nodeName === 'P') {
-        node.setAttribute('class', 'f4 lh-copy')
-        findEl(node, 'A', function (el) {
-          el.setAttribute('class', 'black link underline')
-        })
-      } else if (node.nodeName === 'UL') {
-        node.setAttribute('class', 'f4 lh-copy')
-        findEl(node, 'LI', function (el) {
-          el.setAttribute('class', 'mt1')
-        })
-      } else if (node.nodeName === 'H2') {
-        node.setAttribute('class', 'f2-l f3 bt bw2')
-      }
-      tuple[0].push(node)
-    }
-
-    if (i === (len - 1) && !pushed) {
-      tuple[1].push(html`<pre class="dn db-l"></pre>`)
-      res.push(tuple)
-    }
-  }
-
-  return res
 }
 
 function Logo (text) {
@@ -216,7 +122,7 @@ function Logo (text) {
     }
   `
   return html`
-    <h1 class="f3 f2-l lh-title mt0 mb3 mb4-ns vhs-left ${prefix}">
+    <h1 class="f3 f2-l lh-title vhs-left ${prefix}">
       <a href="https://choo.io" class="black link">
         <span class="c">C</span>
         <span class="h">H</span>
@@ -229,17 +135,4 @@ function Logo (text) {
       </span>
     </h1>
   `
-}
-
-function findEl (node, type, cb) {
-  var childNodes = node.childNodes
-  var childLen = childNodes.length
-  for (var j = 0; j < childLen; j++) {
-    var childEl = childNodes[j]
-    if (childEl.nodeName === type) {
-      cb(childEl)
-    } else if (childEl.childNodes.length) {
-      findEl(childEl, type, cb)
-    }
-  }
 }
