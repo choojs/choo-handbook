@@ -7,6 +7,7 @@ var css = require('sheetify')
 var path = require('path')
 var choo = require('choo')
 
+
 ;css('tachyons')
 ;css('vhs/css/vhs.css')
 ;css('highlight-syntax-pastel')
@@ -18,12 +19,26 @@ var highlight = Highlight([ require('highlight-syntax/js') ])
 var files = read.sync(path.join(__dirname, 'content'))
 
 var layout = [
-  [ 'Introduction', files.introduction ],
+  [ 'Introduction', files['introduction'] ],
   [ 'core concepts', [
-    [ 'Your first app', files['core_your-first-app'] ]
+    [ 'Your first app', files['core-your-first-app'] ]
   ]],
-  [ 'node', [
-    [ 'Rendering in Node', files['node_rendering-in-node'] ]
+  [ 'elements', [
+    [ 'HTML', files['elements-html'] ],
+    [ 'Events', files['elements-events'] ],
+    [ 'Lifecycle Hooks', files['elements-lifecycle-hooks'] ],
+    [ 'Memoizing', files['elements-memoizing'] ],
+    [ 'Creating Widgets', files['elements-creating-widgets'] ]
+  ]],
+  [ 'routing', [
+    [ 'Creating a Router', files['routing-creating-a-router'] ],
+    [ 'Anchor Tags', files['routing-anchor-tags'] ],
+    [ 'Hash Routing', files['routing-hash-routing'] ],
+    [ 'Combining Routers', files['routing-combining-routers'] ]
+  ]],
+  [ 'guides', [
+    [ 'Designing for Reusability', files['node-designing-for-reusability'] ],
+    [ 'Rendering in Node', files['node-rendering-in-node'] ]
   ]]
 ]
 
