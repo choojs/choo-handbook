@@ -270,7 +270,7 @@ app.model({
 ```
 
 Now, every time we add a todo item, it will be stored as
-`{ title: 'Our title', complete: false }`. Let's update the view to show that
+`{ title: 'Our title', completed: false }`. Let's update the view to show that
 status.
 
 ```javascript
