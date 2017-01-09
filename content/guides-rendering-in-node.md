@@ -42,7 +42,7 @@ if (module.parent) {
   document.body.appendChild(app.start())
 }
 
-function (state, prev, send) {
+function mainView (state, prev, send) {
   return html`
     <h1>${state.message}</h1>
   `
