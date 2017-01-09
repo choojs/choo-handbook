@@ -36,17 +36,16 @@ elements consider using an array. An example:
 const html = require('yo-yo')
 
 // incorrect
-const el = html`
+const badEl = html`
   <div>hey</div>
   <div>hey</div>
 `
 
 // correct
-const el = [
+const goodEl = [
   html`<div>hey</div>`,
   html`<div>hey</div>`
 ]
-`
 ```
 
 ## Wrapping up

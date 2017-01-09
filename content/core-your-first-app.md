@@ -11,7 +11,7 @@ familiar with a few things:
 (But don't worry: they're optional, they don't make it much harder to understand
 what's going on, and [choo supports older browsers](https://github.com/yoshuawuyts/choo/#choo--internet-explorer--safari))
 * [npm](https://nodejs.org/en/download/), and importing JavaScript modules using
-`require(...)`
+`require('...')`
 
 As you go through this tutorial, please take note of anything that is confusing
 and [let us know about it](https://github.com/yoshuawuyts/workshop-choo/issues/12)
@@ -165,7 +165,8 @@ const view = (state, prev, send) => {
       <ul>
         ${state.todos.map((todo) => html`<li>${todo.title}</li>`)}
       </ul>
-    </div>`
+    </div>
+  `
 }
 ```
 
@@ -285,12 +286,14 @@ const view = (state, prev, send) => {
           <li>
             <input type="checkbox" ${todo.completed ? 'checked' : ''} />
             ${todo.title}
-          </li>`)}
+          </li>`
+        )}
       </ul>
     </div>`
 
   function onSubmit (e) {
-    . . .
+    // ...
+  }
 }
 ```
 
@@ -321,17 +324,22 @@ const view = (state, prev, send) => {
       <ul>
         ${state.todos.map((todo, index) => html`
           <li>
-            <input type="checkbox" ${todo.completed ? 'checked' : ''} onchange=${(e) => {
-              const updates = { completed: e.target.checked }
-              send('updateTodo', { index: index, updates: updates })
-            }} />
+            <input
+              type="checkbox" ${todo.completed ? 'checked' : ''}
+              onchange=${(e) => {
+                const updates = { completed: e.target.checked }
+                send('updateTodo', { index: index, updates: updates })
+              }} />
             ${todo.title}
-          </li>`)}
+          </li>
+        `)}
       </ul>
-    </div>`
+    </div>
+  `
+}
 
-  function onSubmit (e) {
-    . . .
+function onSubmit (e) {
+  // ...
 }
 ```
 
@@ -439,7 +447,6 @@ app.model({
     receiveTodos: (state, data) => {
       return { todos: data }
     }
-    // ...
   },
   effects: {
     getTodos: (state, data, send, done) => {
@@ -469,6 +476,7 @@ const view = (state, prev, send) => {
 
   function onSubmit (e) {
     // ...
+  }
 }
 ```
 
@@ -502,7 +510,7 @@ app.model({
   },
   effects: {
     getTodos: (data, state, send, done) => {
-      . . .
+      // ...
     },
     addTodo: (data, state, send, done) => {
       const todo = extend(data, {
@@ -540,7 +548,7 @@ app.model({
     }
   },
   effects: {
-    getTodos: (state, state, send, done) => {
+    getTodos: (state, data, send, done) => {
       // ...
     },
     addTodo: (state, data, send, done) => {
@@ -574,7 +582,7 @@ so we can improve the tutorial!
 
 ## Full code
 
-```javascript
+```js
 const extend = require('xtend')
 const choo = require('choo')
 const html = require('choo/html')
