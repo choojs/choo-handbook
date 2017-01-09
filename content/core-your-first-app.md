@@ -499,20 +499,20 @@ app.model({
     todos: []
   },
   reducers: {
-    receiveTodos: (data, state) => {
+    receiveTodos: (state, data) => {
       // ...
     },
-    receiveNewTodo: (data, state) => {
+    receiveNewTodo: (state, data) => {
       const newTodos = state.todos.slice()
       newTodos.push(data)
       return { todos: newTodos }
     }
   },
   effects: {
-    getTodos: (data, state, send, done) => {
+    getTodos: (state, data, send, done) => {
       // ...
     },
-    addTodo: (data, state, send, done) => {
+    addTodo: (state, data, send, done) => {
       const todo = extend(data, {
         completed: false
       })
