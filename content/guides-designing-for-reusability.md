@@ -103,7 +103,7 @@ const getFormData = require('get-form-data')
 const html = require('choo/html')
 
 module.exports = function formComponent (opts) {
-  return `
+  return html`
     <form onsubmit=${onSubmit}>
       <input name="woof" type="text" placeholder="type here"
         value=${opts.values.woof} oninput=${onInput}>
