@@ -35,7 +35,7 @@ module.exports = () => {
           <div
             style="height: 500px"
             onload=${(el) => initMap(el, coords)}
-            onunload${removeMap}></div>
+            onunload=${removeMap}></div>
         </div>
       `
     },
