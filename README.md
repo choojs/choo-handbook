@@ -1,4 +1,9 @@
 # choo-handbook
+__⚠️ The handbook is currently being refactored to work with choo v5, examples
+here are probably out of date ⚠️__
+
+---
+
 This is the manual for learning the "choo frontend framework", which is
 currently located in the main [choo repository][choo]. If you want to read the
 handbook check it out here or [on the web][web].
