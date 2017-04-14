@@ -25,7 +25,7 @@
     "vhs": "^0.2.0"
   },
   "devDependencies": {
-    "bankai": "^5.2.0",
+    "bankai": "^7.1.0",
     "standard": "^8.6.0",
     "standard-markdown": "^2.1.1"
   }
