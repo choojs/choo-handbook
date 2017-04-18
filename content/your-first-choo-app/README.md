@@ -1,4 +1,6 @@
 # your first choo app
+🌐 Made by [@louiscenter](https://twitter.com/louiscenter) 🌐
+
 ✨ This guide will take you through your first steps as you build an interactive web app with `choo` ✨
 
 ## Who is guide this for?
