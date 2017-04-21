@@ -6,7 +6,9 @@
   "scripts": {
     "build": "bankai build -O",
     "start": "bankai start --open",
-    "test": "standard && standard-markdown"
+    "test": "standard && standard-markdown",
+    "snyk-protect": "snyk protect",
+    "prepublish": "npm run snyk-protect"
   },
   "browserify": {
     "transform": [
@@ -22,11 +24,13 @@
     "marked": "^0.3.6",
     "read-directory": "^2.0.0",
     "tachyons": "^4.6.1",
-    "vhs": "^0.2.0"
+    "vhs": "^0.2.0",
+    "snyk": "^1.25.0"
   },
   "devDependencies": {
     "bankai": "^5.2.0",
     "standard": "^8.6.0",
     "standard-markdown": "^2.1.1"
-  }
+  },
+  "snyk": true
 }
