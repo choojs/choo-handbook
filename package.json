@@ -3,6 +3,10 @@
   "version": "1.0.0",
   "license": "MIT",
   "scripts": {
-    "build": "rm -rf dist && mkdir dist && cp -r src/* dist"
+    "build": "rm -rf dist && mkdir dist && cp -r src/* dist",
+    "test": "standard"
+  },
+  "devDependencies": {
+    "standard": "^10.0.2"
   }
 }
