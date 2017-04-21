@@ -126,7 +126,7 @@ module.exports = function formComponent (opts) {
 
 Binding components to the framework should generally happen in the `pages/`
 directory (or whichever equivalent you prefer). If all components are imported
-exlicitly, and all actions are bound, concerns are separated pretty much as
+explicitly, and all actions are bound, concerns are separated pretty much as
 well as they can be.
 
 ## Reducers

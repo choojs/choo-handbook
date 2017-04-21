@@ -388,9 +388,9 @@ use an **effect**.
 ## Effects
 
 **Effects** are similar to **reducers** except instead of modifying the **state**
-they cause _side effects_ by interacting servers, databases, DOM APIs, etc. Often
-they'll call a reducer when they're done to update the state. For instance, you
-may have an **effect** called `getUsers` that fetches a list of users from a
+they cause _side effects_ by interacting with servers, databases, DOM APIs, etc. 
+Often they'll call a reducer when they're done to update the state. For instance, 
+you may have an **effect** called `getUsers` that fetches a list of users from a
 server API using AJAX. Assuming the AJAX request completes successfully, the
 effect can pass off the list of users to a **reducer** called `receiveUsers`
 which simply updates the **state** with that list, separating the concerns of
