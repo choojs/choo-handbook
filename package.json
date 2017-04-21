@@ -4,29 +4,10 @@
   "license": "MIT",
   "private": true,
   "scripts": {
-    "build": "bankai build -O",
-    "start": "bankai start --open",
-    "test": "standard && standard-markdown"
-  },
-  "browserify": {
-    "transform": [
-      "read-directory/transform",
-      "brfs"
-    ]
-  },
-  "dependencies": {
-    "brfs": "^1.4.3",
-    "choo": "^4.0.3",
-    "highlight-syntax": "^3.0.2",
-    "highlight-syntax-pastel": "^1.0.0",
-    "marked": "^0.3.6",
-    "read-directory": "^2.0.0",
-    "tachyons": "^4.6.1",
-    "vhs": "^0.2.0"
+    "build": "rm -rf dist && mkdir dist && cp -r src/* dist",
+    "test": "standard"
   },
   "devDependencies": {
-    "bankai": "^5.2.0",
-    "standard": "^8.6.0",
-    "standard-markdown": "^2.1.1"
+    "standard": "^10.0.2"
   }
 }
