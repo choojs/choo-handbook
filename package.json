@@ -2,7 +2,6 @@
   "name": "choo-handbook",
   "version": "1.0.0",
   "license": "MIT",
-  "private": true,
   "scripts": {
     "build": "rm -rf dist && mkdir dist && cp -r src/* dist",
     "test": "standard"
