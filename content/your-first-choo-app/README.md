@@ -1,22 +1,17 @@
-# your first choo app
-🌐 Made by [@louiscenter](https://twitter.com/louiscenter) 🌐
-
-✨ This guide will take you through your first steps as you build an interactive web app with `choo` ✨
-
 ## Who is guide this for?
-If you're comfortable with the basics of JavaScript, HTML & CSS, but you've never built an interactive web app before, this guide is for you. 🤔
+If you're comfortable with the basics of JavaScript, HTML & CSS, but you've never built an interactive web app before, this guide is for you.
 
-If you are a seasoned JavaScript developer with experience in other frameworks, and are looking to try `choo` for the first time, this guide is also for you. 😎
+If you are a seasoned JavaScript developer with experience in other frameworks, and are looking to try `choo` for the first time, this guide is also for you.
 
 ## What is choo?
 `choo` is a small framework that helps you build web apps with JavaScript.
 
 JavaScript makes it easy to add fun interactive elements to our HTML pages. As the language has gained in popularity, developers are now choosing to build their websites entirely with JavaScript. This offers many benefits to both users and developers, most notably that websites can now behave similarly to native desktop or mobile applications.
 
-`choo` provides a small but powerful collection of tools that commonly feature in JavaScript web apps, such as templating, routing, and state management. By the end of this guide, you will understand what these terms mean. Don't be concerned if you don't already know what they are. This is why you are here! 😊
+`choo` provides a small but powerful collection of tools that commonly feature in JavaScript web apps, such as templating, routing, and state management. By the end of this guide, you will understand what these terms mean. Don't be concerned if you don't already know what they are. This is why you are here!
 
 ## What will we build?
-For this guide, we're going to build an interactive animal simulator called `choo-animals`. It will be informative, cute, but most of all, fun! 🦁
+For this guide, we're going to build an interactive animal simulator called `choo-animals`. It will be informative, cute, but most of all, fun!
 
 This is what it looks like:
 
@@ -29,11 +24,11 @@ You can try it for yourself here: [https://choo-animals.glitch.me](https://choo-
 ## Let's get started!
 For this guide, we will be using an online code editor called [Glitch](https://glitch.com/).
 
-Glitch lets us write, edit and deploy JavaScript code in the browser. This is useful because we can make changes to our code and see the updated results instantly. ✨
+Glitch lets us write, edit and deploy JavaScript code in the browser. This is useful because we can make changes to our code and see the updated results instantly.
 
 A starter project is available for you to follow along with this guide: [https://glitch.com/edit/#!/project/choo-animals-starter](https://glitch.com/edit/#!/project/choo-animals-starter)
 
-When the editor has finished loading, you should make your own copy of the project so you can start coding. To do this, click the `"Remix this 🎤"` button near the top left hand corner of the window:
+When the editor has finished loading, you should make your own copy of the project so you can start coding. To do this, click the `Remix this` button near the top left hand corner of the window:
 
 ![remix](images/remix-this.png "Screenshot of remix this button")
 
@@ -69,13 +64,13 @@ At this point, we can take a look at what our app currently looks like. To do th
 
 ![show](images/show.png "Screenshot of show button")
 
-Our application should appear in a new browser tab. However, as you'll see, the screen will be blank 😐:
+Our application should appear in a new browser tab. However, as you'll see, the screen will be blank:
 
 ![blank](images/starter-blank.png "Screenshot of blank browser")
 
 Our app does not yet contain any templates, nor any routes. This means that if we try to run our application, we will only ever see a blank page.
 
-Let's fix this ☝️
+Let's fix this!
 
 ## Building a template
 In web app development, a template often refers to a piece of code that will help us render some HTML to the screen. Being templates, they will render most of the same information each time, but change slightly depending on the different bits of input they receive.
@@ -145,7 +140,7 @@ As we change the code in Glitch's editor, our app's window should automatically 
 
 If your app hasn't updated yet, you can simply refresh the window yourself.
 
-Now that we can see text on the screen, this means that you successfully got `choo` working! ✨ Congratulations 😊
+Now that we can see text on the screen, this means that you successfully got `choo` working. Congratulations!
 
 We're not finished yet, but let's quickly summarise what we've done so far:
 
@@ -158,7 +153,7 @@ Just like we can `require()` third-party modules like `choo` into our applicatio
 
 If we were to modularise what we currently have, it would likely be considered "pre-optimisation", since there's not much code there anyway. Attempts to break it out further would likely just increase complexity, but as we're about to add a lot of new markup to our `main` template in just a moment, let's go ahead and break it out into its own file.
 
-In Glitch's left sidebar, click the `"+ New File"` button. Specify your new file's path as `templates/main.js`, then click `Add File 👍`:
+In Glitch's left sidebar, click the `"+ New File"` button. Specify your new file's path as `templates/main.js`, then click `Add File`:
 
 ![new file](images/starter-new-file.png "Screenshot of new file")
 
@@ -359,7 +354,7 @@ If we look at our application now, you should see something cute like this:
 
 ![first animal](images/starter-first-animal.png "Screenshot of first animal")
 
-Nice! A super sweet lion has decided to come and hang out with us while we code. 🦁
+Nice! A super sweet lion has decided to come and hang out with us while we code.
 
 That was a lot to digest, so let's quickly go over what we just did:
 
@@ -698,9 +693,9 @@ If we switch over to our application again, and begin clicking different areas o
 
 ![random animals](images/starter-random-animals.gif "Screenshot of random animals")
 
-*LOOK AT HOW CUTE THEY ALL ARE* 😍
+*LOOK AT HOW CUTE THEY ALL ARE!*
 
-Take a moment to appreciate everything you've just built! Our `choo` app is really starting to shape up 😊
+Take a moment to appreciate everything you've just built! Our `choo` app is really starting to shape up.
 
 Let's quickly revisit what we accomplished in this last section:
 
@@ -710,9 +705,9 @@ Let's quickly revisit what we accomplished in this last section:
 
 - Over in `index.js`, we received this data inside our `emitter.on('addAnimal')` handler as `data`, and proceeded to push this into our `state.animals` array.
 
-At this point, we've made a super fun interactive `choo` app that we can share with all our friends! 👭
+At this point, we've made a super fun interactive `choo` app that we can share with all our friends!
 
-__*ProTip™*__ ✨ you can send the link of your Glitch app to anyone who'd like to play with your app, or hack on your code with you via Glich's `Share` or `🕶 Show` buttons:
+__*ProTip™*__: you can send the link of your Glitch app to anyone who'd like to play with your app, or hack on your code with you via Glich's `Share` or `🕶 Show` buttons:
 
 ![share](images/starter-share.png "Screenshot of share")
 
@@ -787,7 +782,7 @@ You may have noticed that we're using this new `animalMap()` function we created
 
 To build this feature, our `animal.js` template needs access to some extra functions and information. The first thing we pass in is our new `remove()` function. Then, we pass in `obj`, which represents the animal that `map()` is iterating across. The final argument, `i`, represents the index number of the current `map()` iteration.
 
-These changes may seem confusing and abstract at first. Don't worry! 😊 Our next move will hopefully tie these changes together.
+These changes may seem confusing and abstract at first. Don't worry! Our next move will hopefully tie these changes together.
 
 Let's open `animal.js`, and update its code:
 
@@ -858,7 +853,7 @@ Let's check our application, and see if this works:
 
 ![deletion](images/starter-delete-animals.gif "Screenshot of deletion")
 
-Cool! We can add animals to our screen, and also remove them. ✨ Talk about cuteness overload ✨
+Cool! We can add animals to our screen, and also remove them. Talk about cuteness overload!
 
 If we added a large number of animals to our plot of grass, it would be useful if we could filter the screen so we only see a specific type of animal.
 
@@ -959,7 +954,7 @@ That's so cool! When we click on a filter, our app redirects to a new dynamic ro
 
 ## Summary
 
-🏁 Woah, we just finished building `choo-animals`! Congratulations ✨
+Woah, we just finished building `choo-animals`. Congratulations!
 
 I hope you had a lot of fun making this app, just as much as I had fun writing this guide.
 
