@@ -199,7 +199,9 @@ app.mount(&#39;div&#39;)
 <p>In <code>choo</code>, the idea is that when information is changed or new information becomes available, the page will automatically update itself to reflect that, much in the same way that a native desktop or mobile application would.</p>
 <p>To do this, <code>choo</code> uses the concept of &quot;application state&quot; to drive the output of its templates. This could mean absolutely nothing to you right now, so it&#39;s a good opportunity to dive further into what &quot;state&quot; is and how it works.</p>
 <p>In programming, it&#39;s commonplace for a script to have several variables which contain information that you pass into a function. A function will typically do the same thing each time you run it, so when you pass the same variables in as arguments again and again, it will keep returning the same result:</p>
-<pre><code class="lang-js">var obj = { fun: true, name: &#39;Alice&#39; }
+<pre><code class="lang-js">// example
+var fun = true
+var name = 'Alice'
 
 function sentence() {
   if (fun) {

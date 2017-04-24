@@ -255,7 +255,9 @@ To do this, `choo` uses the concept of "application state" to drive the output o
 In programming, it's commonplace for a script to have several variables which contain information that you pass into a function. A function will typically do the same thing each time you run it, so when you pass the same variables in as arguments again and again, it will keep returning the same result:
 
 ```js
-var obj = { fun: true, name: 'Alice' }
+// example
+var fun = true
+var name = 'Alice'
 
 function sentence() {
   if (fun) {
