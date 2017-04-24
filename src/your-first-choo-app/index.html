@@ -230,7 +230,7 @@ var app = choo()
 app.use(function (state) {
   // initialize state
   state.animals = {type: &#39;lion&#39;, x: 200, y: 100}
-}
+})
 
 // declare routes
 app.route(&#39;/&#39;, main)
@@ -303,7 +303,7 @@ app.use(function (state) {
     {type: &#39;lion&#39;, x: 200, y: 100},
     {type: &#39;crocodile&#39;, x: 50, y: 300}
   ]
-}
+})
 
 // declare routes
 app.route(&#39;/&#39;, main)
@@ -354,7 +354,7 @@ module.exports = function (state) {
 <p>For example:</p>
 <pre><code class="lang-js">var array = [1, 2, 3]
 var newArray = array.map(function (num) {
-  return 1 * 2
+  return num * 2
 })
 
 console.log(newArray)
@@ -469,7 +469,7 @@ module.exports = function (state, emit) {
   function update () {
     emit(&#39;changeNumber&#39;)
   }
-})
+}
 </code></pre>
 <p>We can use the <code>state</code> object to render useful bits of information inside of our templates. We can also continue passing that information further down into child templates.</p>
 <p>We can use the <code>emit()</code> function to trigger updates to our <code>state</code> object, from our templates. If we register <code>emitter.on(&#39;cats&#39;)</code> inside of <code>app.use()</code>, this can be triggered by <code>emit(&#39;cats&#39;)</code> somewhere else.</p>
@@ -723,7 +723,7 @@ function animalMap (obj, i) {
 </code></pre>
 <p>This update to <code>animalMap()</code> checks whether we&#39;ve navigated to our <code>/filter/:type</code> route. If we have, <code>state.params.type</code> would contain a string of the animal we&#39;re looking for. If not, this value would be empty.</p>
 <p>If this value contains a string, but does <em>not</em> match the <code>type</code> of animal our <code>map()</code> function is currently iterating over, we exit this function early by returning nothing. This means we don&#39;t render anything to the screen during this iteration. In all other circumstances (if there <em>is</em> a match, or we aren&#39;t filtering at all), then we render the animal to the screen during that iteration.</p>
-<p>To active our filter, let&#39;s add some new template markup to our <code>main.js</code> template, which renders a list of anchor elements, each linking out to a specific animal&#39;s filter:</p>
+<p>To activate our filter, let&#39;s add some new template markup to our <code>main.js</code> template, which renders a list of anchor elements, each linking out to a specific animal&#39;s filter:</p>
 <pre><code class="lang-js">// ...
 
 // create html template

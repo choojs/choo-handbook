@@ -292,7 +292,7 @@ var app = choo()
 app.use(function (state) {
   // initialize state
   state.animals = {type: 'lion', x: 200, y: 100}
-}
+})
 
 // declare routes
 app.route('/', main)
@@ -387,7 +387,7 @@ app.use(function (state) {
     {type: 'lion', x: 200, y: 100},
     {type: 'crocodile', x: 50, y: 300}
   ]
-}
+})
 
 // declare routes
 app.route('/', main)
@@ -452,7 +452,7 @@ For example:
 ```js
 var array = [1, 2, 3]
 var newArray = array.map(function (num) {
-  return 1 * 2
+  return num * 2
 })
 
 console.log(newArray)
@@ -598,7 +598,7 @@ module.exports = function (state, emit) {
   function update () {
     emit('changeNumber')
   }
-})
+}
 ```
 
 We can use the `state` object to render useful bits of information inside of our templates. We can also continue passing that information further down into child templates.
@@ -920,7 +920,7 @@ This update to `animalMap()` checks whether we've navigated to our `/filter/:typ
 
 If this value contains a string, but does *not* match the `type` of animal our `map()` function is currently iterating over, we exit this function early by returning nothing. This means we don't render anything to the screen during this iteration. In all other circumstances (if there *is* a match, or we aren't filtering at all), then we render the animal to the screen during that iteration.
 
-To active our filter, let's add some new template markup to our `main.js` template, which renders a list of anchor elements, each linking out to a specific animal's filter:
+To activate our filter, let's add some new template markup to our `main.js` template, which renders a list of anchor elements, each linking out to a specific animal's filter:
 
 ```js
 // ...
