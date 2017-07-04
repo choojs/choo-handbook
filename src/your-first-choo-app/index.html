@@ -382,13 +382,13 @@ console.log(newArray)
 app.use(function (state, emitter) {
   // initialize state
   state.animals = [
-    {type: &#39;lion&#39;, x: 100, y: 200},
-    {type: &#39;crocodile&#39;, x: 300, y: 50}
+    {type: &#39;lion&#39;, x: 200, y: 100},
+    {type: &#39;crocodile&#39;, x: 50, y: 300}
   ]
 
   // add animal
   emitter.on(&#39;addAnimal&#39;, function () {
-    var obj = {type: &#39;lion&#39;, x: 200, y: 100}
+    var obj = {type: &#39;lion&#39;, x: 100, y: 200}
     state.animals.push(obj)
 
     emitter.emit(&#39;render&#39;)
@@ -736,7 +736,7 @@ return html`
     &lt;div class=&quot;controls&quot;&gt;
       &lt;ul class=&quot;filters&quot;&gt;
         &lt;li&gt;&lt;a href=&quot;/&quot;&gt;all&lt;/a&gt;&lt;/li&gt;
-        &lt;li&gt;&lt;a href=&quot;/filter/crocodile&quot;&gt;crododiles&lt;/a&gt;&lt;/li&gt;
+        &lt;li&gt;&lt;a href=&quot;/filter/crocodile&quot;&gt;crocodiles&lt;/a&gt;&lt;/li&gt;
         &lt;li&gt;&lt;a href=&quot;/filter/koala&quot;&gt;koalas&lt;/a&gt;&lt;/li&gt;
         &lt;li&gt;&lt;a href=&quot;/filter/lion&quot;&gt;lions&lt;/a&gt;&lt;/li&gt;
         &lt;li&gt;&lt;a href=&quot;/filter/tiger&quot;&gt;tigers&lt;/a&gt;&lt;/li&gt;
