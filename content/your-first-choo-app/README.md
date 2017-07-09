@@ -273,6 +273,8 @@ sentence()
 
 // the following is logged to screen:
 // "Yay! Alice is having fun!"
+// "Yay! Alice is having fun!"
+// "Yay! Alice is having fun!"
 ```
 
 As mentioned earlier in this guide:
