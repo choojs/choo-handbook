@@ -297,3 +297,8 @@ Prior to these changes, when we entered text into our first input field, nothing
 The important change here is the new `value` property we added to the `<input />` element. When this element detects new input from the keyboard, it runs the `updateLion()` function. This then emits the `updateAnimal` event, which first updates our `state.animals` object, and then triggers `emitter.emit('render')`, re-rendering our application.
 
 If `choo` re-renders, but an `<input />` element's `value` property isn't set to anything, `choo` will re-render that element *without* any value. Thus we end up with the effect that nothing is being updated at all.
+
+## Minimizing re-renders
+This application is starting to work a lot better now, but depending on what kind of behaviour you'd like your input fields and forms to exhibit, re-rendering the application after each keystroke might not be ideal.
+
+There's another way in which we can transfer information from an input field, to our application state, without all of the extra re-rendering.
