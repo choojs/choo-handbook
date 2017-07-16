@@ -16,7 +16,7 @@ For this guide, we're going to build a variation of the animal simulator we buil
 
 This is what it looks like:
 
-[![screenshot](images/choo-talking-animals.gif)](https://choo-talking-animals.glitch.me)
+[![screenshot](images/choo-talking-animals1.gif)](https://choo-talking-animals.glitch.me)
 
 Using the provided input fields, a user can change what each animal is saying to the other. The lion's input field will work slightly differently to the crocodile's input field, and this should help demonstrate the basic ways in which input fields can update our application's state.
 
@@ -302,3 +302,52 @@ If `choo` re-renders, but an `<input />` element's `value` property isn't set to
 This application is starting to work a lot better now, but depending on what kind of behaviour you'd like your input fields and forms to exhibit, re-rendering the application after each keystroke might not be ideal.
 
 There's another way in which we can transfer information from an input field, to our application state, without all of the extra re-rendering.
+
+Let's make a change to the Crocodile's input field, and the `<button>` element sitting next to it, in `templates/index.js`:
+
+```html
+<div class="label">The Crocodile says</div>
+  <input type="text" id="crocodile" value=${crocodile} />
+  <button onclick=${updateCrocodile}>Update</button>
+</div>
+```
+
+Like before, we've added a `value` property to this input field, and set its value to the `crocodile` variable. However, you may have noticed that we didn't add an `oninput` property. Instead, we've added an `onclick` property to the `<button>` element, which is set to trigger a function called `updateCrocodile()` when an interaction occurs.
+
+To finish, let's add the `updateCrocodile()` function below the `updateLion()` function:
+
+```js
+// update what lion says
+  function updateLion (e) {
+    emit('updateAnimal', {
+      type: 'lion',
+      value: e.target.value
+    })
+  }
+
+  // update what crocodile says
+  function updateCrocodile () {
+    emit('updateAnimal', {
+      type: 'crocodile',
+      value: document.getElementById('crocodile').value
+    })
+  }
+```
+
+This is the last bit of code we'll write in this guide, so let's see how our app looks now. Switch to the application view, change the value of the Crocodile's input field, and press the `Update` button:
+
+![inputs5](images/inputs5.gif "The crocodile talks!")
+
+Awesome! Both inputs are now working, and we can change what both animals are saying to each other. Let's look closer at what our second input field is doing, and then figure out how these two input fields differ from each other:
+
+- First, the user changes the value of the Crocodile's input field, and then presses the `<button />` element labelled "Update".
+
+- This then triggers the `updateCrocodile()` function, which then triggers the `emit()` function. We emit `updateAnimal` to `choo`'s event bus, and pass in an object, just like we do in our `updateLion()` function from earlier.
+
+- The object we pass into `emit()` here differs slightly from the one inside of `updateLion()`: its `type` property is set to `'crocodile'`, and its `value` property is set to `document.getElementById('crocodile').value`.
+
+The difference between these two approaches is mainly in the way we are obtaining the value of each input field:
+
+- In the first example, because we are running `updateLion()` after each key stroke, we can set the value of our application's state to the value of the `<input />` element each time.
+
+- In the second example, we only run `updateCrocodile()` when the "Update" `<button>` is clicked. As the interaction arises from the `<button>` element, we must manually reach out to the `<input />` element we're interested in and obtain its value, and we do this by using `document.getElementById('crocodile').value()`.
