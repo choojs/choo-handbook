@@ -351,3 +351,33 @@ The difference between these two approaches is mainly in the way we are obtainin
 - In the first example, because we are running `updateLion()` after each key stroke, we can set the value of our application's state to the value of the `<input />` element each time.
 
 - In the second example, we only run `updateCrocodile()` when the "Update" `<button>` is clicked. As the interaction arises from the `<button>` element, we must manually reach out to the `<input />` element we're interested in and obtain its value, and we do this by using `document.getElementById('crocodile').value()`.
+
+## Pros and cons
+As mentioned previously, the goal of this guide is to demonstrate two ways in which the transfer of information between an `<input />` element, and our application's `state` object can be achieved.
+
+There are more variations on this, but what we've shown here demonstrates the significance of *when* to re-render a page for the user.
+
+In certain circumstances, you may want your user interface to change after each keystroke or related interaction, but in other circumstances, you may want to avoid this because your page is already re-rendering increasingly often.
+
+You may have spotted this UI bug while playing around with the app:
+
+![ui-bug](images/ui-bug.gif "A small UI bug")
+
+First, we're changing the value of the Crocodile's input field, but before we click the "Update" button, we're also changing the value of the Lion's input field. This then causes the value of the Crocodile's input field to reset to the value of `state.animals.crocodile`.
+
+Remember, the Lion's input field updates our application's state *and* re-renders after each keystroke, so if we have entered a new value into the Crocodile's input, but have not yet updated the value of `state.animals.crocodile`, we wind up with this race condition.
+
+Deciding on which method you might want to use for your own application will differ depending on what you need the end result to look like, but be aware of any excessive re-rendering or unintended UI bugs.
+
+## Summary
+Yay! Another `choo` handbook guide in the bag!
+
+It seems like we've chewed through a lot information here just to get some `<input />` fields on a page, but we've managed to touch on a number of topics:
+
+- HTML element event handlers (`oninput`, `onclick`)
+- Grabbing HTML element values (`document.getElementById()`)
+- Re-rendering (`emitter.emit('render')`)
+
+In the coming weeks, we will be publishing another guide on "Advanced Form Handling". This should cover a much wider scope of topics to help structure complex forms inside your `choo` application.
+
+Stay tuned!
