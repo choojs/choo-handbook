@@ -211,7 +211,7 @@ app.mount('div')
 
 Above our route declaration, we're now calling and passing a function into `app.use()`, allowing us to first initialize our application's state, and then update it when the `updateAnimal` event is emitted. Let's breakdown this part of the code:
 
-- First we create an object which we assign to `state.animals`. This object has two properties, `state.animals.lion` and `state.animals.crocodile`. These both contain strings which will act first as the default value for each animal's speech bubble, and then the values for each speech bubble after they are updated.
+- First we create an object which we assign to `state.animals`. This object has two properties, `state.animals.lion` and `state.animals.crocodile`. These both contain strings which represent what each animal is saying.
 
 - Next, we create an event listener called `updateAnimal` using the `emitter.on()` function. When this event listener receives data, it passes a value (`data.value`), to its corresponding `state.animals` property (if the value of `data.type` is equal to `lion`, then `state.animals.lion` is updated).
 
