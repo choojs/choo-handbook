@@ -121,7 +121,7 @@ Let's see what our app looks like now:
 Below our grass square (`<div class="grass">`), we've a added new container (`<div class="inputs">`) which includes two input fields (`<input type="text" />`), and a `<button>`. The first input field is for our Lion, and the second input field is for our Crocodile. At this point, if we type some text into one of these inputs, or click on the button, nothing will happen. However, we can add properties to these elements which will trigger a function when an interaction occurs.
 
 ## Adding event handlers to inputs
-The idea of this application is that it should demonstrate two different ways in which we can get text from an input field, to our application's state.
+The idea of this application is that it should demonstrate two different ways in which we can get text from an input field to our application's state.
 
 One way we can do this is by detecting when the contents of an input field has changed. In response, we can pass this updated input value to our application's state.
 
@@ -278,7 +278,7 @@ module.exports = function (state, emit) {
 
 ```
 
-Before we disect all the changes we just made, let's try our application again:
+Before we dissect all the changes we just made, let's try our application again:
 
 ![inputs4](images/inputs4.gif "Our first input now works!")
 
@@ -318,20 +318,20 @@ To finish, let's add the `updateCrocodile()` function below the `updateLion()` f
 
 ```js
 // update what lion says
-  function updateLion (e) {
-    emit('updateAnimal', {
-      type: 'lion',
-      value: e.target.value
-    })
-  }
+function updateLion (e) {
+  emit('updateAnimal', {
+    type: 'lion',
+    value: e.target.value
+  })
+}
 
-  // update what crocodile says
-  function updateCrocodile () {
-    emit('updateAnimal', {
-      type: 'crocodile',
-      value: document.getElementById('crocodile').value
-    })
-  }
+// update what crocodile says
+function updateCrocodile () {
+  emit('updateAnimal', {
+    type: 'crocodile',
+    value: document.getElementById('crocodile').value
+  })
+}
 ```
 
 This is the last bit of code we'll write in this guide, so let's see how our app looks now. Switch to the application view, change the value of the Crocodile's input field, and press the `Update` button:
