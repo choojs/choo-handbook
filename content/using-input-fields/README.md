@@ -16,7 +16,7 @@ For this guide, we're going to build a variation of the animal simulator we buil
 
 This is what it looks like:
 
-[![screenshot](images/choo-talking-animals1.gif)](https://choo-talking-animals.glitch.me)
+[![screenshot](images/choo-talking-animals.gif)](https://choo-talking-animals.glitch.me)
 
 Using the provided input fields, a user can change what each animal is saying to the other. The lion's input field will work slightly differently to the crocodile's input field, and this should help demonstrate the basic ways in which input fields can update our application's state.
 
