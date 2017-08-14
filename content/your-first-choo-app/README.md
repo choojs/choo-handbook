@@ -1,4 +1,4 @@
-## Who is guide this for?
+## Who is this guide for?
 If you're comfortable with the basics of JavaScript, HTML & CSS, but you've never built an interactive web app before, this guide is for you.
 
 If you are a seasoned JavaScript developer with experience in other frameworks, and are looking to try `choo` for the first time, this guide is also for you.
