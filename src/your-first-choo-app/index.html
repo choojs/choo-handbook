@@ -24,7 +24,7 @@
           <span>April 18, 2017 &#10024; by <a href="https://twitter.com/louiscenter">louis</a></span>
         </div>
         <article>
-<h2 id="who-is-guide-this-for-">Who is guide this for?</h2>
+<h2 id="who-is-guide-this-for-">Who is this guide for?</h2>
 <p>If you&#39;re comfortable with the basics of JavaScript, HTML &amp; CSS, but you&#39;ve never built an interactive web app before, this guide is for you.</p>
 <p>If you are a seasoned JavaScript developer with experience in other frameworks, and are looking to try <code>choo</code> for the first time, this guide is also for you.</p>
 <h2 id="what-is-choo-">What is choo?</h2>
@@ -91,7 +91,7 @@ app.mount(&#39;div&#39;)
 </code></pre>
 <p>Underneath our <code>choo</code> import near the top of the file, we&#39;re now also importing <code>choo</code>&#39;s html helper. This becomes accessible via the <code>html</code> variable.</p>
 <p>Towards the end of the file, we&#39;re creating a function, and assigning it to the <code>main</code> variable. Inside this function, we&#39;re returning a template that we&#39;ll use to render <code>&lt;div&gt;choo animals&lt;/div&gt;</code> to our page.</p>
-<p>This bit of code might be confusing, so let&#39;s disect further.</p>
+<p>This bit of code might be confusing, so let&#39;s dissect further.</p>
 <p>The <code>html</code> variable references a function that parses template strings containing HTML code (eg. <code>html`&lt;h1&gt;choo&lt;/h1&gt;` </code>). A given template string will be interpreted into a special data structure, that <code>choo</code> then renders as HTML on the page.</p>
 <h2 id="creating-a-route">Creating a route</h2>
 <p>When a friend links you to a specific page on a website, that URL acts as a route so the server knows where to direct you.</p>
@@ -111,11 +111,11 @@ app.route(&#39;/&#39;, main)
 app.mount(&#39;div&#39;)
 </code></pre>
 <p>The <code>app.route()</code> function takes in two arguments, the first being the URL path you want to create (this should be specified as a string), and the second being the template you&#39;d like to show users when they arrive at that path (usually a variable that references the template).</p>
-<p>As this is our first route, we will make it the &quot;index&quot; (or &quot;root&quot;) of the entire application. We do this by specifying the route as <code>&#39;/&#39;</code>. This route would be the equivalant of visiting something like <code>https://choo.io</code> (the home page). Creating a route with the path <code>/cats</code> would be the equivalant of visiting <code>https://choo.io/cats</code>.</p>
+<p>As this is our first route, we will make it the &quot;index&quot; (or &quot;root&quot;) of the entire application. We do this by specifying the route as <code>&#39;/&#39;</code>. This route would be the equivalent of visiting something like <code>https://choo.io</code> (the home page). Creating a route with the path <code>/cats</code> would be the equivalent of visiting <code>https://choo.io/cats</code>.</p>
 <p>As we change the code in Glitch&#39;s editor, our app&#39;s window should automatically update itself. If you open it, you should see the following:</p>
 <p><img src="images/starter-first-route.png" alt="first route" title="Screenshot of first route"></p>
 <p>If your app hasn&#39;t updated yet, you can simply refresh the window yourself.</p>
-<p>Now that we can see text on the screen, this means that you successfully got <code>choo</code> working. Congratulations!</p>
+<p>Now that we can see text on the screen, it means that you successfully got <code>choo</code> working. Congratulations!</p>
 <p>We&#39;re not finished yet, but let&#39;s quickly summarise what we&#39;ve done so far:</p>
 <ul>
 <li>First, we initialised <code>choo</code>, and mounted it onto the page.</li>

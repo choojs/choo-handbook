@@ -104,7 +104,7 @@ Underneath our `choo` import near the top of the file, we're now also importing 
 
 Towards the end of the file, we're creating a function, and assigning it to the `main` variable. Inside this function, we're returning a template that we'll use to render `<div>choo animals</div>` to our page.
 
-This bit of code might be confusing, so let's disect further.
+This bit of code might be confusing, so let's dissect further.
 
 The `html` variable references a function that parses template strings containing HTML code (eg. `` html`<h1>choo</h1>` ``). A given template string will be interpreted into a special data structure, that `choo` then renders as HTML on the page.
 
@@ -132,7 +132,7 @@ app.mount('div')
 
 The `app.route()` function takes in two arguments, the first being the URL path you want to create (this should be specified as a string), and the second being the template you'd like to show users when they arrive at that path (usually a variable that references the template).
 
-As this is our first route, we will make it the "index" (or "root") of the entire application. We do this by specifying the route as `'/'`. This route would be the equivalant of visiting something like `https://choo.io` (the home page). Creating a route with the path `/cats` would be the equivalant of visiting `https://choo.io/cats`.
+As this is our first route, we will make it the "index" (or "root") of the entire application. We do this by specifying the route as `'/'`. This route would be the equivalent of visiting something like `https://choo.io` (the home page). Creating a route with the path `/cats` would be the equivalent of visiting `https://choo.io/cats`.
 
 As we change the code in Glitch's editor, our app's window should automatically update itself. If you open it, you should see the following:
 
@@ -140,7 +140,7 @@ As we change the code in Glitch's editor, our app's window should automatically 
 
 If your app hasn't updated yet, you can simply refresh the window yourself.
 
-Now that we can see text on the screen, this means that you successfully got `choo` working. Congratulations!
+Now that we can see text on the screen, it means that you successfully got `choo` working. Congratulations!
 
 We're not finished yet, but let's quickly summarise what we've done so far:
 
