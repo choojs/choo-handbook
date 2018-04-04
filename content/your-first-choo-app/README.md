@@ -573,7 +573,7 @@ We're not quite done yet, but we just implemented a lot of really cool new funct
 
 ```js
 // example
-app.use(function (state, emitter) (
+app.use(function (state, emitter) {
   state.number = 1
 
   emitter.on('changeNumber', function () {
