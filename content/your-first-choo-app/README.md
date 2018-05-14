@@ -461,9 +461,9 @@ console.log(newArray)
 // [2, 4, 6]
 ```
 
-In the context of our application, we are using `map()` to iterate across each animal in our `state.animals` array. By passing in our `animal.js` template into `map()`, we can then create a new array of templates that each represent an animal. These are then rendered in place of `${state.animals.map(animal)}`.
+In the context of our application, we are using `map()` to iterate across each animal in our `state.animals` array. By passing our `animal.js` template into `map()`, we can then create a new array of templates that each represent an animal. These are then rendered in place of `${state.animals.map(animal)}`.
 
-If you look again inside of `animal.js`, you'll see that an `animal` is passed in as an argument each time the exported function is run. We are then grabbing the `type`,`x`, and `y` values of the animal currently being iterated on, and returning that new template.
+If you look again inside of `animal.js`, you'll see that an `animal` is passed in as an argument each time the exported function is run. We are then grabbing the `type`,`x`, and `y` values of the animal currently being iterated upon, and returning that new template.
 
 If we now look at our application, we should see that a new friend has arrived!
 
@@ -473,7 +473,7 @@ Now is a good time to quickly summarise what we just did:
 
 - First, we changed our state to reflect not just one animal (a single object), but many animals (an array of objects).
 - We then created a new template (`animal.js`) which outputs an `<img>` element, representing one animal.
-- Finally, using JavaScript's `map()` function, we "mapped" across `state.animals` inside our `main.js` file. This lets us to render each animal inside of `state.animals` to the screen.
+- Finally, using JavaScript's `map()` function, we "mapped" across `state.animals` inside our `main.js` file. This lets us render each animal inside of `state.animals` to the screen.
 
 It would be nice if we could add new animals to our application simply by clicking somewhere on the grass, rather than having to update our code by hand to reflect this. Let's figure out a way to update our `state` directly from our templates.
 
