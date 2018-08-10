@@ -362,15 +362,15 @@ var newArray = array.map(function (num) {
 console.log(newArray)
 // [2, 4, 6]
 </code></pre>
-<p>In the context of our application, we are using <code>map()</code> to iterate across each animal in our <code>state.animals</code> array. By passing in our <code>animal.js</code> template into <code>map()</code>, we can then create a new array of templates that each represent an animal. These are then rendered in place of <code>${state.animals.map(animal)}</code>.</p>
-<p>If you look again inside of <code>animal.js</code>, you&#39;ll see that an <code>animal</code> is passed in as an argument each time the exported function is run. We are then grabbing the <code>type</code>,<code>x</code>, and <code>y</code> values of the animal currently being iterated on, and returning that new template.</p>
+<p>In the context of our application, we are using <code>map()</code> to iterate across each animal in our <code>state.animals</code> array. By passing our <code>animal.js</code> template into <code>map()</code>, we can then create a new array of templates that each represent an animal. These are then rendered in place of <code>${state.animals.map(animal)}</code>.</p>
+<p>If you look again inside of <code>animal.js</code>, you&#39;ll see that an <code>animal</code> is passed in as an argument each time the exported function is run. We are then grabbing the <code>type</code>,<code>x</code>, and <code>y</code> values of the animal currently being iterated upon, and returning that new template.</p>
 <p>If we now look at our application, we should see that a new friend has arrived!</p>
 <p><img src="images/starter-second-animal.png" alt="second animal" title="Screenshot of second animal"></p>
 <p>Now is a good time to quickly summarise what we just did:</p>
 <ul>
 <li>First, we changed our state to reflect not just one animal (a single object), but many animals (an array of objects).</li>
 <li>We then created a new template (<code>animal.js</code>) which outputs an <code>&lt;img&gt;</code> element, representing one animal.</li>
-<li>Finally, using JavaScript&#39;s <code>map()</code> function, we &quot;mapped&quot; across <code>state.animals</code> inside our <code>main.js</code> file. This lets us to render each animal inside of <code>state.animals</code> to the screen.</li>
+<li>Finally, using JavaScript&#39;s <code>map()</code> function, we &quot;mapped&quot; across <code>state.animals</code> inside our <code>main.js</code> file. This lets us render each animal inside of <code>state.animals</code> to the screen.</li>
 </ul>
 <p>It would be nice if we could add new animals to our application simply by clicking somewhere on the grass, rather than having to update our code by hand to reflect this. Let&#39;s figure out a way to update our <code>state</code> directly from our templates.</p>
 <h2 id="updating-state">Updating state</h2>
